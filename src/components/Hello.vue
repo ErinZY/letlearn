@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-  <mt-header fixed title="固定在顶部"></mt-header>
+  <mt-header fixed title="固定顶部"></mt-header>
     <h1>{{ msg }}</h1>
     <button @click="routerTest">路由跳转测试</button>
     <button @click="CourseDetail">课程详情</button>
