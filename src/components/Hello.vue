@@ -3,6 +3,7 @@
   <mt-header fixed title="固定在顶部"></mt-header>
     <h1>{{ msg }}</h1>
     <button @click="routerTest">路由跳转测试</button>
+    <button @click="CourseDetail">课程详情</button>
     <button @click="toast">消息提示框</button>
     <button @click="indicator">加载提示框</button>
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
@@ -57,12 +58,15 @@ export default {
       ],
       value:false,
       isornot:'否'
-      
+
     }
   },
   methods:{
     routerTest:function(){
       this.$router.push('/courseIndex');
+    },
+    CourseDetail:function () {
+      this.$router.push('/CourseDetail');
     },
     toast:function(){
       Toast({
@@ -110,7 +114,7 @@ export default {
       }else{
             this.isornot="否";
       }
-      
+
     }
   },
   components:{

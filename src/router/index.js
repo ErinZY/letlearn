@@ -19,5 +19,15 @@ export default new Router({
             name: 'CourseIndex',
             component: require('../pages/CourseIndex.vue')
         },
+      {
+        path: '/CourseDetail',
+        name: 'CourseDetail',
+        component: require('../pages/CourseDetail.vue')
+      },
+      {
+        path: '/Detail',
+        name: 'Detail',
+        component: require('../pages/CourseDetail.vue')
+      },
     ]
 })
