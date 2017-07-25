@@ -8,7 +8,7 @@
     <button @click="indicator">加载提示框</button>
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
       <ul>
-        <li v-for="item in list" style="display:block">{{ item }}</li>
+        <li v-for="(item,index) in list" style="display:block">{{ item }}</li>
       </ul>
     </mt-loadmore>
     <button @click="openAlert">打开alert提示框</button>
