@@ -24,20 +24,27 @@
       <mt-tab-container-item id="2">
         <div class="comment-content-up">
           <div class="comment-content">
-            <img class="user-img" :src="src" alt="" @error='changeImage($event)' >
+            <img class="user-img" :src="src" alt="" @error='changeImage($event)' style="float: left">
             <textarea class="comment-area" placeholder="我来说两句..."></textarea>
             <mt-button class="button" size="small">发布</mt-button>
           </div>
         </div>
+        <div class="total-comment"><span class="commentNum">{{commentNum}}</span>评论</div>
         <div class="comment-content-down">
-          <div class="total-comment"><span>{{commentNum}}</span>评论</div>
+
           <ul>
             <li v-for="commentInfo in list">
               <div>
                 <img :src="src" alt="" @error='changeImage($event)'>
-                <div></div>
+                <div class="comment-pull-right">
+                  <p class="username">{{commentInfo.userName}}</p>
+                  <p class="comment">{{commentInfo.commentContent}}</p>
+                  <p class="other">
+                    <span class="day">{{commentInfo.day}}</span>
+                    <span class="like">{{commentInfo.like}} 赞</span>
+                  </p>
+                  </div>
               </div>
-              {{commentInfo.userName}}
             </li>
           </ul>
         </div>
@@ -78,14 +85,19 @@
   }
 </script>
 <style>
-  .detail-content, .comment-content{
+  .detail-content, .comment-content, .comment, .username, .other, .total-comment{
     text-align: left;
+  }
+  .detail-intro-content, .other{
+    color: #9d9d9d;
+  }
+  li, .detail-title, .comment-content-up{
+    padding: 0.5rem;
   }
   .detail-title{
     font-size: 0.7rem;
     border-bottom: 0.05rem #dddddd solid;
     margin: 0 1rem 0.5rem;
-    padding: 0.5rem;
   }
   .detail-intro-title, .detail-intro-content{
     font-size: 0.5rem;
@@ -95,11 +107,12 @@
   }
   .detail-intro-content{
     margin: 1rem 1.5rem;
-    color: #dddddd;
   }
   .comment-content-up{
-    padding: 0.5rem;
     border-bottom: 0.05rem solid #dddddd;
+  }
+  .comment-content-down{
+    /*padding: 0.5rem;*/
   }
   img{
     margin-right: 1rem;
@@ -124,6 +137,27 @@
   }
   li{
     list-style: none;
+    height: 3rem;
+    border-bottom: 0.05rem solid #dddddd;
+  }
+  .comment-pull-right{
+    float: left;
+  }
+  .commentNum{
+    padding: 0 0.5rem;
+  }
+  .username, .other{
+    font-size: 0.5rem;
+  }
+  .comment{
+    font-size: 0.7rem;
+  }
+  .day{
+    border-right: 0.05rem solid #dddddd;
+    padding-right: 0.5rem;
+  }
+  .like{
+    padding-left: 0.5rem;
   }
 
 </style>

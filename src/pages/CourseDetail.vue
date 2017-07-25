@@ -37,7 +37,7 @@
         likeNum:51,
         detailTitle:'老王谈用友文化3.0',
         introduce:'文化3.0之使命',
-        commentNum:9,
+        commentNum:3,
         allComment: [{
           userIcon:'',
           userName: 'zhangying',
