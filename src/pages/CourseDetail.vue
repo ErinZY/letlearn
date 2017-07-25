@@ -4,10 +4,10 @@
       <v-head :title="title">
       </v-head>
     </div>
+    <my-video :sources="video.sources" :options="video.options"></my-video>
     <div class="content">
       <v-detail
         :id="id"
-        :video="video"
         :likeIcon="src"
         :likeNum="likeNum"
         :detailTitle="detailTitle"
@@ -23,6 +23,7 @@
 </template>
 <script>
   import { Loadmore,Spinner,InfiniteScroll, Toast } from 'mint-ui'
+  import MyVideo from './CourseVideo'
   import Vue from 'vue'
   Vue.use(InfiniteScroll)
   import Header from '../components/Header'
@@ -33,12 +34,22 @@
       return{
         id:'111111',
         title:'1 使命',
-        video:'视频部分',
         src:'',
         likeNum:51,
         detailTitle:'老王谈用友文化3.0',
         introduce:'文化3.0之使命',
         commentNum:3,
+        video: {
+          sources: [{
+            src: 'http://vjs.zencdn.net/v/oceans.mp4',
+            type: 'video/mp4'
+          }],
+          options: {
+            autoplay: true,
+            volume: 0.6,
+            poster: 'http://covteam.u.qiniudn.com/poster.png'
+          }
+        },
         allComment: [{
           userIcon:'',
           userName: 'zhangying',
@@ -87,6 +98,7 @@
       'v-head':Header,
       'v-detail':Detail,
       'loadmore':Loadmore,
+       MyVideo
     }
   }
 </script>
