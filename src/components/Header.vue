@@ -4,19 +4,22 @@
     <router-link to="/" slot="left">
         <mt-button icon="back">返回</mt-button>
     </router-link>
-    <mt-button icon="more" slot="right"></mt-button>
+    <mt-button icon="" slot="right" v-if="hasRight" @click="emitFiltrate">筛选</mt-button>
     </mt-header>
 </div>   
 </template>
 <script>
 import { Header,Button } from 'mint-ui';
     export default {
-        props:['title'],
+        props:['title','hasRight'],
           data(){
               return {
               }
           },
           methods:{
+              emitFiltrate:function(){
+                  this.$emit('filtrate');
+              }
           },
           components:{
               'mt-header':Header,
