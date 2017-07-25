@@ -39,7 +39,7 @@
 </script>
 <style>
    .course-info{
-    margin:0.75rem 0.5rem 0 0;
+    margin:0.75rem 0.5rem 0 0.5rem;
     height:5rem;
     border-bottom:1px solid #e5e5e5;
     overflow:hidden;

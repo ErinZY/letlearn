@@ -1,13 +1,25 @@
 <template>
   <div id="CourseIndex">
+    <sidebar v-if="isClickFilter" @closeit="closeMySidebar"></sidebar>
+    <div class="course" v-if="!isClickFilter">
   <div class="my-header">
-    <my-header title="我的课程">
+    <my-header title="我的课程" :hasRight="hasRight" @filtrate="myfiltrate">
     </my-header>
+  </div>
+  <div class="search-input">
+    <div class="mint-search">
+      <div class="mint-searchbar">
+        <div class="mint-searchbar-inner">
+          <i class="mintui mintui-search"></i>
+          <input type="search" placeholder="搜索" class="mint-searchbar-core" @focus="toSearch">
+        </div>
+      </div>
+    </div>
   </div>
   <div class="course-list">
             <ul style="{height:wrapperHeight + 'px''}" ref ='wrapper'>
                 <loadmore ref='loadmore1'>
-                <li v-for="(courseinfo,index) in allCourse">
+                <li v-for="(courseinfo,index) in allCourse" :key="index">
                     <cou-info 
                       :index= 'courseinfo.lessonID' 
                       :src="courseinfo.src" 
@@ -32,21 +44,26 @@
 
         </div>
   </div>
+  </div>
 </template>
 
 <script>
-import { Loadmore,Spinner,InfiniteScroll, Toast } from 'mint-ui'
+import { Search,Loadmore,Spinner,InfiniteScroll, Toast } from 'mint-ui'
 import Vue from 'vue'
 Vue.use(InfiniteScroll)
 import Header from '../components/Header'
 import CourseInfo from '../components/CourseInfo'
+import sidebar from './Sidebar'
 export default {
   name: 'CourseIndex',
   data() {
     return{
+      //头部是否含有右边的东西
+      hasRight:true,
       wrapperHeight:0,
       allLoaded:false,
       bottomStatus:'',
+      isClickFilter:false,
        allCourse:[{
         lessonID:'111111',
         src:'',
@@ -160,19 +177,33 @@ export default {
     }
   },
    methods:{
+     mysearch:function(){
+       alert("111");
+     },
+     myfiltrate:function(){
+       this.isClickFilter=!this.isClickFilters;
+       console.log(this.isClickFilter);
+      //  this.$router.push('/Sidebar');
+     },
+     closeMySidebar:function(){
+       this.isClickFilter=false;
+     },
+     toSearch:function(){
+       this.$router.push('/Search');
+     }
     },
   components:{
     'my-header':Header,
     'loadmore':Loadmore,
     'cou-info':CourseInfo,
-    'spinner':Spinner
+    Spinner,
+    Search,
+    sidebar
   }
 }
 </script>
 
 <style>
-#CourseIndex {
-}
 .mint-loadmore{
   width:100%;
 }
@@ -181,5 +212,8 @@ a{
 }
 li{
   list-style:none;
+}
+.search-input .mint-search{
+  height:2.5rem;
 }
 </style>
