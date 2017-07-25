@@ -1,6 +1,6 @@
 <template>
     <div class="course-info">
-        <router-link to="/" class="course-link" >
+        <router-link to="/CourseDetail" class="course-link" >
             <img class="course-img" :src="src" alt="" @error='changeImage($event)'>        
             <div class="about-course">
             <p class="course-name">{{ courseName }}</p>

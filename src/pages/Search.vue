@@ -11,18 +11,35 @@
       </div>
     </div>
   </div>
+  <my-video :sources="video.sources" :options="video.options"></my-video>
   </div>
 </template>
 <script>
+import MyVideo from './CourseVideo'
 export default {
-  name: 'SearchHead',
+  name: 'Search',
   data(){
-    return{}
+    return{
+      video: {
+                sources: [{
+                    src: 'http://vjs.zencdn.net/v/oceans.mp4',
+                    type: 'video/mp4'
+                }],
+                options: {
+                    autoplay: true,
+                    volume: 0.6,
+                    poster: 'http://covteam.u.qiniudn.com/poster.png'
+                }
+            }
+    }
   },
   methods:{
     mysearch:function(){
       alert('哈哈');
     }
+  },
+  components:{
+    MyVideo
   }
 }
 </script>
