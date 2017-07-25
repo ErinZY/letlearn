@@ -33,7 +33,7 @@
         <div class="comment-content-down">
 
           <ul>
-            <li v-for="commentInfo in list">
+            <li v-for="commentInfo in commentList" class="comment-li">
               <div>
                 <img :src="src" alt="" @error='changeImage($event)'>
                 <div class="comment-pull-right">
@@ -51,6 +51,13 @@
       </mt-tab-container-item>
 
       <mt-tab-container-item id="3">
+        <ul>
+          <li v-for="sectionInfo in sectionList" class="section-li">
+            <div>
+                <p class="section">第{{sectionInfo.part}}章 <span>{{sectionInfo.title}}</span></p>
+            </div>
+          </li>
+        </ul>
       </mt-tab-container-item>
 
     </mt-tab-container>
@@ -73,7 +80,7 @@
         selected:'1'
       }
     },
-    props:['video','src','lecturerName','likeNum','detailTitle','introduce','commentNum','list'],
+    props:['video','src','lecturerName','likeNum','detailTitle','introduce','commentNum','commentList','sectionList'],
     methods:{
       //设置图片加载不出来,或者图片本身不存在时 对应的图片
       changeImage(event){
@@ -85,13 +92,13 @@
   }
 </script>
 <style>
-  .detail-content, .comment-content, .comment, .username, .other, .total-comment{
+  .detail-content, .comment-content, .comment, .username, .other, .total-comment, .section{
     text-align: left;
   }
   .detail-intro-content, .other{
     color: #9d9d9d;
   }
-  li, .detail-title, .comment-content-up{
+  .comment-li, .detail-title, .comment-content-up{
     padding: 0.5rem;
   }
   .detail-title{
@@ -135,9 +142,9 @@
   .total-comment{
     border-bottom: 0.05rem solid #dddddd;
   }
-  li{
+  .comment-li{
     list-style: none;
-    height: 3rem;
+    height: 2.5rem;
     border-bottom: 0.05rem solid #dddddd;
   }
   .comment-pull-right{
@@ -158,6 +165,12 @@
   }
   .like{
     padding-left: 0.5rem;
+  }
+  .section{
+    border-bottom: 0.05rem solid #dddddd;
+    margin: 0.5rem 0.5rem 0;
+    padding-bottom: 0.5rem;
+    font-size: 0.5rem;
   }
 
 </style>
