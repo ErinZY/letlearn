@@ -14,7 +14,8 @@
         :introduce="introduce"
         :userSelfIcon="src"
         :commentNum="commentNum"
-        :list="allComment"
+        :commentList="allComment"
+        :sectionList="allSection"
        >
       </v-detail>
     </div>
@@ -58,7 +59,26 @@
             commentContent: '测试3',
             day: '3周前',
             like: '3'
-          }]
+          }],
+        allSection:[{
+            part:'1',
+            title:'1 使命'
+        },{
+            part:'2',
+            title:'2 愿景'
+        },{
+            part:'3',
+            title:'3 用友价值观——用户之友'
+        },{
+            part:'4',
+            title:'4 用友价值观——专业奋斗'
+        },{
+            part:'5',
+            title:'5 用友价值观——开放创新'
+        },{
+            part:'6',
+            title:'6 用友价值观——诚信合作'
+        }]
       }
     },
     methods:{
