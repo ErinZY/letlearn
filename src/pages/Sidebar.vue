@@ -33,41 +33,41 @@ import { Header,Button } from 'mint-ui';
                   isSelected:false,
                   sidebarList:[
                     {
-                      title:'全部课程',
+                      title:'创新故事',
                       courseNum:585,
                       sidebarSubList:[
                           {
-                          subTitle:'创新故事',
+                          subTitle:'创新故事1',
                           subCourseNum:21,
                           id:111,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'创新故事1',
                           subCourseNum:21,
                           id:222,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'创新故事1',
                           subCourseNum:21,
                           id:333,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'创新故事1',
                           subCourseNum:21,
                           id:444,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'创新故事1',
                           subCourseNum:21,
                           id:555,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'创新故事1',
                           subCourseNum:21,
                           id:666,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'创新故事1',
                           subCourseNum:21,
                           id:777,
                         }
@@ -77,108 +77,108 @@ import { Header,Button } from 'mint-ui';
                       title:'NC',
                       sidebarSubList:[
                           {
-                          subTitle:'价值培训',
+                          subTitle:'nc1',
                           subCourseNum:34,
                           id:1111,
                         },
                         {
-                          subTitle:'动态建模',
+                          subTitle:'nc1',
                           subCourseNum:3,
                           id:2222,
                         }
                           ]
                     },
                     {
-                      title:'全部课程',
+                      title:'领导力',
                       courseNum:585,
                       sidebarSubList:[
                           {
-                          subTitle:'创新故事',
+                          subTitle:'领导力1',
                           subCourseNum:21,
                           id:11111,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'领导力1',
                           subCourseNum:21,
                           id:22222,
                         }
                           ]
                     },
                     {
-                      title:'全部课程',
+                      title:'营销',
                       courseNum:585,
                       sidebarSubList:[
                           {
-                          subTitle:'创新故事',
+                          subTitle:'营销1',
                           subCourseNum:21,
                           id:111111,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'营销1',
                           subCourseNum:21,
                           id:222222,
                         }
                           ]
                     },
                     {
-                      title:'全部课程',
+                      title:'实施',
                       courseNum:585,
                       sidebarSubList:[
                           {
-                          subTitle:'创新故事',
+                          subTitle:'实施1',
                           subCourseNum:21,
                           id:1111111,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'实施2',
                           subCourseNum:21,
                           id:2222222,
                         }
                           ]
                     },
                     {
-                      title:'全部课程',
+                      title:'研发',
                       courseNum:585,
                       sidebarSubList:[
                           {
-                          subTitle:'创新故事',
+                          subTitle:'研发1',
                           subCourseNum:21,
                           id:11111111,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'研发2',
                           subCourseNum:21,
                           id:22222222,
                         }
                           ]
                     },
                     {
-                      title:'全部课程',
+                      title:'通用能力',
                       courseNum:585,
                       sidebarSubList:[
                           {
-                          subTitle:'创新故事',
+                          subTitle:'通用能力1',
                           subCourseNum:21,
                           id:111111111,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'通用能力2',
                           subCourseNum:21,
                           id:222222222,
                         }
                           ]
                     },
                     {
-                      title:'全部课程',
+                      title:'新员工培训',
                       courseNum:585,
                       sidebarSubList:[
                           {
-                          subTitle:'创新故事',
+                          subTitle:'新员工培训1',
                           subCourseNum:21,
                           id:1111111111,
                         },
                         {
-                          subTitle:'领导力',
+                          subTitle:'新员工培训2',
                           subCourseNum:21,
                           id:2222222222,
                         }
