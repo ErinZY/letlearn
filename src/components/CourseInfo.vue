@@ -37,7 +37,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
    .course-info{
     margin:0.75rem 0.5rem 0 0.5rem;
     height:5rem;
