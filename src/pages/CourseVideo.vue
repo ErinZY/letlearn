@@ -407,6 +407,9 @@ export default {
                 console.log(e)
             })
             this.$video.addEventListener('progress', (e) => {
+                if(isNaN(this.$video.duration)){
+                    return;
+                }
                 this.video.loaded = (-1 + (this.$video.buffered.end(0) / this.$video.duration)) * 100
             })
             this.video.len = this.$video.duration
