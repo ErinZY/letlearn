@@ -21,7 +21,7 @@
     </div>
   </div>
 </template>
-<script>
+<script scoped>
   import { Loadmore,Spinner,InfiniteScroll, Toast } from 'mint-ui'
   import MyVideo from './CourseVideo'
   import Vue from 'vue'
