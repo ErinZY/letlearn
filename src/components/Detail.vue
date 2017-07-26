@@ -32,9 +32,11 @@
 
       <mt-tab-container-item id="3">
 
-        <div class="total-comment">
+        <div class="total-comment" style="height: 2rem;">
           <!--<span class="commentNum">{{commentNum}}</span>评论-->
-          <mt-button class="edit-comment" @click.native="popupVisible1 = true" size="small" ref="button" >评 价</mt-button>
+          <img class="edit-img" src="../assets/logo.png">
+          <mt-button class="edit-comment" @click.native="popupVisible1 = true" size="small" ref="button" style="float: right" >评 价</mt-button>
+
         </div>
 
         <mt-popup v-model="popupVisible1" popup-transition="popup-fade" class="mint-popup-1" :style="{ top: buttonBottom + 12 + 'rem' }">
@@ -51,7 +53,7 @@
           <ul>
             <li v-for="commentInfo in commentList" class="comment-li">
               <div>
-                <img :src="src" alt="" @error='changeImage($event)'>
+                <img class="comment-user-img" :src="src" alt="" @error='changeImage($event)'>
                 <div class="comment-pull-right">
                   <p class="username">{{commentInfo.userName}}</p>
                   <p class="comment">{{commentInfo.commentContent}}</p>
@@ -123,6 +125,8 @@
   }
   .button, .close{
     background-color: rgb(0,205,135);
+    text-align: center;
+    color: #ffffff;
   }
   .clickLike{
     height: 1rem;
@@ -150,9 +154,15 @@
     border: none;
     box-shadow: none;
     width: 3rem;
-    margin-left: 12.5rem;
+    height: 2rem;
   }
-  img{
+  .edit-img{
+    width: 1rem;
+    height: 1rem;
+    display: inline;
+    margin: 0.5rem 0 0.5rem 12rem;
+  }
+  .comment-user-img{
     margin-right: 1rem;
     width:2rem;
     height:2rem;
@@ -165,8 +175,6 @@
     height: 4rem;
   }
   .button{
-    color: #ffffff;
-    text-align: center;
     width: 6rem;
   }
   .comment-li{
@@ -176,9 +184,9 @@
   .comment-pull-right{
     float: left;
   }
-  .commentNum{
-    padding: 0 0.5rem;
-  }
+  /*.commentNum{*/
+    /*padding: 0 0.5rem;*/
+  /*}*/
   .day{
     border-right: 0.05rem solid #dddddd;
     padding-right: 0.5rem;
@@ -197,8 +205,6 @@
   }
   .close{
     margin-left: 10.9rem;
-    text-align: center;
-    color: #ffffff;
     width: 1rem;
     height: 1rem;
     border-radius: 0.5rem;
@@ -206,7 +212,5 @@
   .text-content{
     margin-bottom: 0.5rem;
   }
-  .page-part>a>div{
-    color: rgb(0,205,135);
-  }
+
 </style>
