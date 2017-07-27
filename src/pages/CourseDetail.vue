@@ -45,7 +45,7 @@
             type: 'video/mp4'
           }],
           options: {
-            autoplay: true,
+            autoplay: false,
             volume: 0.6,
             poster: 'http://covteam.u.qiniudn.com/poster.png'
           }

@@ -3,11 +3,15 @@
     <div class="blank" :style="{height:wrapperHeight + 'px'}" @click="closeSidebar">空白处</div>
     <div class="sidebar-content" :style="{height:wrapperHeight + 'px'}">
         <div class="sidebar-list">
-        <p class="filtrate">筛选</p>
+        <div class="filtrate">
+            <img src="../../static/images/filter1.svg" alt="">
+            <span>筛选</span>
+            <button @click="allCourse">全部课程</button>
+        </div>
         <div class="scroll" :style="{height:(wrapperHeight-100) + 'px'}">
             <ul>
                 <li v-for="(item,index) in sidebarList" :key="index" >
-                   <div class="filtrate-name"><span>{{item.title}}</span></div>
+                   <div class="filtrate-name"><img src="../../static/images/icon_1.svg" alt=""><span class="bigtitle">{{item.title}}</span><span>(</span><span>{{item.courseNum}}</span><span>)</span></div>
                     <ul class="sub">
                         <li  v-for="(subitem,index) in item.sidebarSubList" :key="index" :id="subitem.id"  @click="choose($event,this)">
                             <button :class="{selected:isSelected}" class="sub-item">{{subitem.subTitle}}</button>
@@ -75,6 +79,7 @@ import { Header,Button } from 'mint-ui';
                     },
                     {
                       title:'NC',
+                      courseNum:5,
                       sidebarSubList:[
                           {
                           subTitle:'nc1',
@@ -206,6 +211,9 @@ import { Header,Button } from 'mint-ui';
                 var id=event.target.parentElement.id;
                 document.getElementById(id).setAttribute("class","myselected");
 
+              },
+              allCourse:function(){
+                  this.$emit('lookAllCourse');
               }
           },
           components:{
@@ -216,7 +224,7 @@ import { Header,Button } from 'mint-ui';
 <style scoped>
 .myselected button{
     color:#fff !important;
-    background-color:#ff6666 !important;
+    background-color:#06CF86 !important;
 }
     #Siderbar{
         width:100%;
@@ -235,10 +243,36 @@ import { Header,Button } from 'mint-ui';
         background-color:#fff;
     }
     .filtrate{
+        position: relative;
+        background-color:#06CF86;
+        line-height: 2.5rem;
+        height:2.5rem;
         text-align:left;
         padding:0.25rem 0.5rem;
-        background-color:#f5f5f5;
         }
+    .filtrate img{
+        top:0.5rem;
+        position:absolute;
+        width:1.5rem;
+        height:1.5rem;
+
+    }
+    .filtrate span{
+        color:#fff;
+        font-size:1rem;
+        margin-left:1.75rem;
+    }
+    .filtrate button{
+        text-align: center;
+        color:#06CF86;
+        border:0;
+        background-color: #fff;
+        float:right;
+        margin-top:0.625rem;
+        width:3.5rem;
+        height:1.25rem;
+        border-radius:0.75rem;
+    }
         .scroll{
             overflow:auto;
         }
@@ -248,10 +282,25 @@ import { Header,Button } from 'mint-ui';
         border-bottom:1px solid #f5f5f5;
         }
     .filtrate-name{
+        height:1.25rem;
+        line-height: 1.25rem;
+        position:relative;
         text-align:left;
         margin-left:0.5rem;
-        padding:0.25rem 0;
+        padding:0.5rem 0;
         }
+    .filtrate-name img{
+        position:absolute;
+        width:1.25rem;
+        height:1.25rem;
+        }
+    .filtrate-name span{
+        color:#06CF86;
+        font-size:0.8rem;
+        }
+    .filtrate-name .bigtitle{
+        margin-left:1.5rem;
+    }
     .sidebar-list .sub{
         list-style:none;
         display:flex;
@@ -265,11 +314,10 @@ import { Header,Button } from 'mint-ui';
    .sidebar-list .sub li .sub-item{
         color: #656b79;
         background-color: #f6f8fa;
-        box-shadow: 0 0 1px #b8bbbf;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        border-radius: 4px;
+        border-radius: 0.75rem;
         border: 0;
         box-sizing: border-box;
         display: block;
@@ -278,7 +326,7 @@ import { Header,Button } from 'mint-ui';
         position: relative;
         text-align: center;
        margin-right:0.5rem;
-       margin-bottom:0.25rem;
+       margin-bottom:0.5rem;
        font-size:0.5rem;
        width:3.5rem;
        min-height:1.5rem;
@@ -291,19 +339,20 @@ import { Header,Button } from 'mint-ui';
     bottom:0;
    }
    .checkbtn .cancel{
-       color:#fff;
        height:1.5rem;
        line-height:1.5rem;
-       width:46%;
+       width:42%;
+       border-radius: 0.75rem;
        display:inline-block;
-       background-color:#b5b5b5;
+       background-color:#f6f8fa;
    }
    .checkbtn .confirm{
        color:#fff;
        display:inline-block;
        line-height:1.5rem;
-       width:46%;
+       border-radius: 0.75rem;
+       width:42%;
        height:1.5rem;
-       background-color:#ff6666;
+       background-color:#06CF86;
    }
 </style>
