@@ -11,9 +11,9 @@
             </p>
             <p class="promulgateTime"><span>{{promulgateTime}}</span></p>
             <p class="videoInfo">
-                <span class="playNum"><i class="i icon-angle-right"></i>{{playNum}}</span>
-                <span class="likesNum"><i class="i icon-angle-right"></i> {{likesNum}}</span>
-                <span class="commentNum"><i class="i icon-angle-right"></i> {{commentNum}}</span>
+                <span class="playNums"><img src="../../static/images/player.svg"></img>{{playNum}}</span>
+                <span class="likesNums"><img src="../../static/images/likes.svg"></img> {{likesNum}}</span>
+                <span class="commentNums"><img src="../../static/images/comments.svg"></img> {{commentNum}}</span>
             </p>
             </div>
         </router-link>
@@ -70,5 +70,13 @@
 }
 .lecturerInfo .lecturerName{
     margin-right:0.25rem;
+}
+.videoInfo span{
+    margin-right: 0.25rem;
+}
+.videoInfo .playNums img,.videoInfo .likesNums img,.videoInfo .commentNums img{
+    margin-right:0.25rem;
+    width:0.5rem;
+    height: 0.5rem;
 }
 </style>

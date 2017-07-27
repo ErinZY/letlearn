@@ -10,6 +10,11 @@ export default new Router({
     mode: 'history',
     routes: [{
             path: '/',
+            name: 'Home',
+            component: require('../pages/Home.vue')
+        },
+        {
+            path: '/CourseIndex',
             name: 'CourseIndex',
             component: require('../pages/CourseIndex.vue')
         },

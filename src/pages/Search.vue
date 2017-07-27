@@ -5,9 +5,9 @@
       <div class="mint-searchbar">
         <div class="mint-searchbar-inner">
           <i class="mintui mintui-search"></i>
-          <input type="search" placeholder="搜索" class="mint-searchbar-core" @keyup.enter="mysearch">
+          <input type="search" placeholder="请输入关键字" class="mint-searchbar-core" @keyup.enter="mysearch">
         </div>
-        <a class="mint-searchbar-cancel" @click="mysearch">搜索</a>
+        <a class="mint-searchbar-cancel" @click="backSearch">取消</a>
       </div>
     </div>
   </div>
@@ -21,8 +21,8 @@ export default {
     }
   },
   methods:{
-    mysearch:function(){
-      alert('哈哈');
+    backSearch:function(){
+      this.$router.push("/CourseIndex");
     }
   }
 }
