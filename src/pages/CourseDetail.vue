@@ -41,7 +41,7 @@
         commentNum:3,
         video: {
           sources: [{
-            src: 'http://vjs.zencdn.net/v/oceans.mp4',
+            src: '../../static/media/总账-09-自定义转账与周期凭证-中.mp4',
             type: 'video/mp4'
           }],
           options: {
