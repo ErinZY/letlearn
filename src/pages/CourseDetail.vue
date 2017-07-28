@@ -41,13 +41,13 @@
         commentNum:3,
         video: {
           sources: [{
-            src: '../../static/media/总账-09-自定义转账与周期凭证-中.mp4',
+            src: '../../static/media/测试.mp4',
             type: 'video/mp4'
           }],
           options: {
-            autoplay: false,
+            autoplay: true,
             volume: 0.6,
-            poster: 'http://covteam.u.qiniudn.com/poster.png'
+            poster: '../../static/images/vediobackground.png'
           }
         },
         allComment: [{
