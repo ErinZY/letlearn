@@ -1,7 +1,13 @@
 <template>
   <div class="detail">
     <router-link to="/" class="course-video"></router-link>
-    <div class="clickLike"><span class="detail-title">{{detailTitle}}</span><span class="likeNum">{{likeNum}}</span></div>
+    <div class="clickLike">
+      <span class="detail-title">{{detailTitle}}</span>
+      <div class="likeNum">
+        <img src="../../static/images/likes1.svg" class="likes"></img>
+        <span>{{likeNum}}</span></div>
+      </div>
+      
     <!--<div class="blankClass"></div>-->
 
     <mt-navbar class="page-part" v-model="selected">
@@ -15,7 +21,10 @@
         <div class="detail-content">
           <!--<div class="detail-title">{{detailTitle}}</div>-->
           <div class="detail-intro">
-            <div class="detail-intro-title">课程介绍</div>
+            <img src="../../static/images/icon_5.svg" alt="">
+            <div class="detail-intro-title">
+                <span>课程介绍</span>
+              </div>
             <div class="detail-intro-content">{{introduce}}</div>
           </div>
         </div>
@@ -23,8 +32,12 @@
       <mt-tab-container-item id="2">
         <ul>
           <li v-for="sectionInfo in sectionList" class="section-li">
-            <div>
-              <p class="section">第{{sectionInfo.part}}章 <span>{{sectionInfo.title}}</span></p>
+            <div class="sectionPlayer">
+              <img src="../../static/images/player.svg" alt="">
+              <p class="section">
+                <span>第{{sectionInfo.part}}章</span>
+                <span>{{sectionInfo.title}}</span>
+              </p>
             </div>
           </li>
         </ul>
@@ -34,7 +47,7 @@
 
         <div class="total-comment" style="height: 2rem;">
           <!--<span class="commentNum">{{commentNum}}</span>评论-->
-          <img class="edit-img" src="../assets/logo.png">
+          <img class="edit-img" src="../../static/images/comments1.svg">
           <mt-button class="edit-comment" @click.native="popupVisible1 = true" size="small" ref="button" style="float: right" >评 价</mt-button>
 
         </div>
@@ -95,7 +108,7 @@
       //设置图片加载不出来,或者图片本身不存在时 对应的图片
       changeImage(event){
         var target = event.target;
-        target.src="../static/images/lesson-default.svg"
+        target.src="../../static/images/girl.svg"
         console.log(target.src)
       }
     },
@@ -105,7 +118,7 @@
   }
 </script>
 <style scoped>
-  .detail-content, .comment-content, .comment, .username, .other, .total-comment, .section{
+  .detail-content, .comment-content, .comment, .username, .other,.section{
     text-align: left;
   }
   .detail-intro-content, .other, .text-content{
@@ -120,6 +133,15 @@
   .detail-intro-title, .detail-intro-content, .username, .other, .section, .detail-title, .likeNum, .comment, .text-content, .edit-comment{
     font-size: 0.6rem;
   }
+  .detail-intro{
+    position:relative;
+  }
+  .detail-intro img{
+    position:absolute;
+    width:1rem;
+    height:1rem;
+    left:0.25rem;
+  }
   .detail-title, .likeNum, .edit-comment{
     color: rgb(0,205,135);
   }
@@ -129,6 +151,7 @@
     color: #ffffff;
   }
   .clickLike{
+     position:relative;
     height: 1rem;
     padding: 0.5rem;
     background-color: black;
@@ -139,11 +162,19 @@
   .detail-title{
     float: left;
   }
+  .likes{
+    position:absolute;
+    top:0.3rem;
+    right:1.5rem;
+    width:1rem;
+    height:1rem;
+  }
   .likeNum{
+   
     float: right;
   }
   .detail-intro-title{
-    margin: 1rem 1rem 0;
+    margin: 1rem 1rem 0 1.5rem;
     padding-bottom: 0.2rem;
   }
   .detail-intro-content{
@@ -156,11 +187,26 @@
     width: 3rem;
     height: 2rem;
   }
+  /* .page-part{
+    position:relative;
+  }
+  .down{
+    margin-left: 0.25rem;
+    position:absolute;
+    top:0.6rem;
+    width:1rem;
+    height:1rem;
+  } */
+  .total-comment{
+    position:relative;
+  }
   .edit-img{
+    right:2.5rem;
+    top:0.5rem;
+    position:absolute;
     width: 1rem;
     height: 1rem;
     display: inline;
-    margin: 0.5rem 0 0.5rem 12rem;
   }
   .comment-user-img{
     margin-right: 1rem;
@@ -195,8 +241,17 @@
     padding-left: 0.5rem;
   }
   .section{
-    margin: 0.5rem 0.5rem 0;
+    margin: 0.5rem 0.5rem 0 1.5rem;
     padding-bottom: 0.5rem;
+  }
+  .sectionPlayer{
+    position:relative;
+  }
+  .sectionPlayer img{
+    left:0.25rem;
+    position:absolute;
+    width:1rem;
+    height:1rem;
   }
   .blankClass{
     height: 0.5rem;

@@ -1,14 +1,14 @@
 <template>
   <div id="coursedetail">
     <div class="v-header">
-      <v-head :title="title">
-      </v-head>
+      <!-- <v-head :title="title">
+      </v-head> -->
     </div>
     <my-video :sources="video.sources" :options="video.options"></my-video>
     <div class="content">
       <v-detail
         :id="id"
-        :likeIcon="src"
+        :src="src"
         :likeNum="likeNum"
         :detailTitle="detailTitle"
         :introduce="introduce"
