@@ -1,20 +1,22 @@
 <template>
     <div class="course-info">
-        <router-link to="/CourseDetail" class="course-link" >
-            <img class="course-img" :src="src" alt="" @error='changeImage($event)'>        
+        <router-link :to="{name: 'CourseDetail', query: {courseId: coursePK}}" class="course-link" >
+        <div class="course-img">
+            <img :src="src" alt="" @error='changeImage($event)'>  
+        </div>      
             <div class="about-course">
-            <p class="course-name">{{ courseName }}</p>
-            <i class="i icon-angle-right"></i> 
-            <p class="lecturerInfo">
-                <span class="lecturerName">讲师:<span>{{lecturerName}}</span></span>
-                <span class="promulgator">发布者:<span>{{promulgator}}</span></span>
-            </p>
-            <p class="promulgateTime"><span>{{promulgateTime}}</span></p>
-            <p class="videoInfo">
-                <span class="playNums"><img src="../../static/images/player.svg"></img>{{playNum}}</span>
-                <span class="likesNums"><img src="../../static/images/likes.svg"></img> {{likesNum}}</span>
-                <span class="commentNums"><img src="../../static/images/comments.svg"></img> {{commentNum}}</span>
-            </p>
+                <p class="course-name">{{ courseName }}</p>
+                <i class="i icon-angle-right"></i> 
+                <p class="lecturerInfo">
+                    <span class="lecturerName">讲师:<span>{{lecturerName}}</span></span>
+                    <span class="promulgator">发布者:<span>{{promulgator}}</span></span>
+                </p>
+                <p class="promulgateTime"><span>{{promulgateTime}}</span></p>
+                <p class="videoInfo">
+                    <span class="playNums"><img src="../../static/images/player.svg"></img>{{playNum}}</span>
+                    <span class="likesNums"><img src="../../static/images/likes.svg"></img> {{likesNum}}</span>
+                    <span class="commentNums"><img src="../../static/images/comments.svg"></img> {{commentNum}}</span>
+                </p>
             </div>
         </router-link>
     </div>
@@ -26,7 +28,7 @@
 
             }
         },
-        props:['src','courseName','lecturerName','promulgator','promulgateTime','playNum','likesNum','commentNum'],
+        props:['coursePK','src','courseName','lecturerName','promulgator','promulgateTime','playNum','likesNum','commentNum'],
         methods:{
             //设置图片加载不出来,或者图片本身不存在时 对应的图片
             changeImage(event){
@@ -39,7 +41,7 @@
 </script>
 <style scoped>
    .course-info{
-    margin:0.75rem 0.5rem 0 0.5rem;
+    margin-top:0.75rem;
     height:5rem;
     border-bottom:1px solid #e5e5e5;
     overflow:hidden;
@@ -47,13 +49,22 @@
    .course-info .course-link{
        color:#000;
    }
-   img{
-       width:5.7rem;
+  .course-info .course-img{
+    position: relative;
+      width:35%;
+      height:80%;
+      display: inline-block;
+
+  }
+   .course-info .course-img img{
+       position:absolute;
+       top:0;
+        left:0;
        height:3.8rem;
    }
    .about-course{
+       text-align: left;
         display:inline-block;
-        margin-left:0.5rem;
    }
    .about-course p{
        margin:0.25rem 0;

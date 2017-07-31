@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 Vue.prototype.axios = axios
+global.API = "http://localhost:8080/upesn"
     // import 'mint-ui/lib/style.css'
 Vue.config.productionTip = false
 
