@@ -10,17 +10,17 @@
                 </div>
                 <div class="scroll" :style="{height:(wrapperHeight-100) + 'px'}">
                     <ul>
-                        <li v-for="(item,index) in sidebarList" :key="index">
+                        <li v-for="(item,index) in sidebarList" :key="index" v-if="item.name!='未分类'">
                             <div class="filtrate-name">
                                 <img src="../../static/images/icon_1.svg" alt="">
-                                <span class="bigtitle">{{item.title}}</span>
-                                <span>(</span>
+                                <span class="bigtitle">{{item.name}}</span>
+                                <!-- <span>(</span>
                                 <span>{{item.courseNum}}</span>
-                                <span>)</span>
+                                <span>)</span> -->
                             </div>
                             <ul class="sub">
-                                <li v-for="(subitem,index) in item.sidebarSubList" :key="index" :id="subitem.id" @click="choose($event,this)">
-                                    <button :class="{selected:isSelected}" class="sub-item">{{subitem.subTitle}}</button>
+                                <li v-for="(subitem,index) in item.sublist" :key="index" :id="subitem.id" @click="choose($event,this)">
+                                    <button :class="{selected:isSelected}" class="sub-item">{{subitem.name}}</button>
                                 </li>
                             </ul>
                         </li>
@@ -42,7 +42,8 @@ export default {
         return {
             wrapperHeight: 0,
             isSelected: false,
-            selectedCourseId: ''
+            selectedCourseId: '',
+            currentCourse:''
         }
     },
     created() {
@@ -62,7 +63,9 @@ export default {
                 }
             }
             var id = event.target.parentElement.id;
+            console.log(event.target.innerText);
             this.selectedCourseId = id;
+            this.currentCourse=event.target.innerText;
             document.getElementById(id).setAttribute("class", "myselected");
 
         },
@@ -70,7 +73,7 @@ export default {
             this.$emit('lookAllCourse');
         },
         searchCourse: function () {
-            this.$emit('searchCourse', this.selectedCourseId);
+            this.$emit('searchCourse', this.selectedCourseId,this.currentCourse);
         }
     },
     components: {
@@ -85,15 +88,18 @@ export default {
 }
 
 #Siderbar {
+    position:fixed;
+    z-index:999;
     width: 100%;
-    background-color: #b5b5b5;
+    /* background-color: #b5b5b5; */
 }
 
 .blank {
-    color: #b5b5b5;
+    width:15%;
     display: inline-block;
-    opacity: 0.5;
-    background-color: #b5b5b5;
+    background-color:#5a5a5a;
+    filter:Alpha(Opacity=60);
+    opacity:0.6;
 }
 
 .sidebar-content {

@@ -1,11 +1,5 @@
 <template>
   <div id="CourseIndex" ref="CourseIndex">
-    <sidebar 
-    :sidebarList="sidebarList" 
-    v-if="isClickFilter" 
-    @closeit="closeMySidebar" 
-    @lookAllCourse="showAllCourse" 
-    @searchCourse="searchCourse"></sidebar>
     <div class="course">
       <div class="my-header">
         <div class="top-Header">
@@ -16,25 +10,8 @@
             <i class="mintui mintui-search"></i>
             <input type="search" placeholder="搜索" v-model="courseName" @focus="toSearch">
           </div>
+          <span class="cancel" @click="toSearch">取消</span>
         </div>
-        <div class="user-header">
-          <div class="avatar">
-            <img src="../../static/images//girl.svg" alt="">
-          </div>
-          <div class="header-title">
-            <p>课程列表</p>
-             <span>当前课程-</span>
-            <span>{{currentCourse}}</span> 
-          </div>
-          <div class="filter">
-            <div class="filterBtn" @click="myfiltrate">
-              <img src="../../static/images/filter.svg" alt="">
-              <span>筛选</span>
-            </div>
-          </div>
-  
-        </div>
-  
       </div>
       <div class="course-list">
         <ul>
@@ -61,12 +38,10 @@
             </div>
           </loadmore>
         </ul>
-  
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import { Search, Button, Loadmore, Spinner, InfiniteScroll, Toast, Indicator } from 'mint-ui'
 import Vue from 'vue'
@@ -75,12 +50,9 @@ import Header from '../components/Header'
 import CourseInfo from '../components/CourseInfo'
 import sidebar from './Sidebar'
 export default {
-  name: 'CourseIndex',
+  name: 'SearchResult',
   data() {
     return {
-      //头部是否含有右边的东西
-      hasRight: true,
-      wrapperHeight: 0,
       //是否全部加载
       allLoaded: false,
       //底部状态（加载更多）
@@ -89,14 +61,10 @@ export default {
       isClickFilter: false,
       // 页数
       pageIndex: 1,
-      // 当前分类课程
-      currentCourse: "全部课程",
       // 课程名（通过搜索课程名查询）
-      courseName: '',
+      courseName:'',
       // 所有课程
-      allCourse: [],
-      // 侧边栏筛选信息
-      sidebarList: []
+      allCourse: []
     }
   },
   //初始化页面
@@ -125,9 +93,9 @@ export default {
       });
   },
   methods: {
-    // 回到首页
+    // 回到课程首页
     backhome: function () {
-      this.$router.push('/');
+      this.$router.push('/CourseIndex');
     },
     // 搜索查询
     mysearch: function () {
@@ -153,76 +121,9 @@ export default {
           console.log(error);
         });
     },
-    // 点击出现筛选侧边栏
-    myfiltrate: function () {
-      var that = this;
-      that.axios.get(API + '/coursetype/listToC', {
-      })
-        .then(function (response) {
-          console.log(response);
-          that.isClickFilter = true;
-          that.sidebarList=response.data.sublist;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    //关闭搜索侧边栏
-    closeMySidebar: function () {
-      this.isClickFilter = false;
-    },
     // 搜索框获得焦点时，跳转新的页面搜索
     toSearch: function () {
       this.$router.push('/Search');
-    },
-    //查看全部课程
-    showAllCourse: function () {
-      this.currentCourse="全部课程";
-      var that = this;
-      Indicator.open({
-        text: '加载中...',
-        spinnerType: 'snake'
-      });
-      that.axios.get(API + '/Course/SearchCourse', {
-        params: {
-          pageIndex: that.pageIndex,
-          pageSize: 5,
-        }
-      })
-        .then(function (response) {
-          console.log(response);
-          that.allCourse = response.data.detailMsg.data.content;
-          Indicator.close();
-          that.isClickFilter = false;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    // 通过点击侧边栏的某个课程分类筛选
-    searchCourse: function (...data) {
-      this.currentCourse=data[1];
-      var that = this;
-      Indicator.open({
-        text: '加载中...',
-        spinnerType: 'snake'
-      });
-      that.axios.get(API + '/Course/SearchCourse', {
-        params: {
-          pageIndex: that.pageIndex,
-          pageSize: 5,
-          courseTypeIds: data[0]
-        }
-      })
-        .then(function (response) {
-          console.log(response);
-          that.allCourse = response.data.detailMsg.data.content;
-          Indicator.close();
-          that.isClickFilter = false;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
     },
     //上拉刷新
     loadBottom(id) {
@@ -281,18 +182,22 @@ export default {
 
 <style scoped>
 .my-header {
+  border-bottom:0.05rem solid #e5e5e5;
   text-align: center;
   color: #fff;
   position: relative;
 }
 
 .my-header .top-Header {
-  height: 2rem;
+  height: 2.25rem;
   text-align: left;
 }
-
+.my-header .top-Header .cancel{
+  padding: 0.25rem;
+  color:#b5b5b5;
+}
 .back {
-  margin: 0.5rem;
+  margin: 0.625rem;
   position: absolute;
   display: inline-block;
 }
@@ -303,10 +208,10 @@ export default {
 }
 
 .mySearch {
-  margin-top: 0.25rem;
+  margin-top: 0.4rem;
   margin-left: 1.75rem;
   display: inline-block;
-  width: 80%;
+  width: 70%;
   padding: 0.25rem 0.25rem;
   border: 0.05rem solid #fff;
   border-radius: 1rem;
@@ -345,78 +250,9 @@ export default {
   /* Internet Explorer 10+ */
   color: #B9B9B9;
 }
-
-.user-header {
-  height: 5rem;
-  text-align: left;
-  position: relative;
-  background: #06CF86;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #93EDC7, #06CF86);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #93EDC7, #06CF86);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+.course-list{
+  margin-top:0.25rem;
 }
-
-.user-header .avatar {
-  position: absolute;
-  text-align: center;
-  width: 40%;
-  display: inline-block;
-}
-
-.user-header .avatar img {
-  margin-top: 1rem;
-  border-radius: 100%;
-  display: inline-block;
-  width: 3rem;
-  height: 3rem;
-}
-
-.user-header .header-title {
-  margin-top: 1.5rem;
-  margin-left: 40%;
-  display: inline-block;
-}
-
-.user-header .header-title p {
-  font-size: 0.8rem;
-}
-
-.user-header .filter {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.5rem;
-}
-
-.user-header .filterBtn {
-  position: relative;
-  font-size: 0.6rem;
-  color: #06CF86;
-  background-color: #fff;
-  border: 0;
-  width: 3.25rem;
-  height: 1.3rem;
-  line-height: 1.4rem;
-  border-radius: 0.75rem;
-  text-align: center;
-  margin: 0.25rem 0 0.5rem 0;
-  display: inline-block;
-}
-
-.filter img {
-  margin-top: 0.2rem;
-  left: 0.3rem;
-  position: absolute;
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-}
-
-.filter span {
-  margin-left: 1rem;
-}
-
 .mint-loadmore {
   width: 100%;
 }

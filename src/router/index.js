@@ -24,6 +24,11 @@ export default new Router({
             component: require('../pages/Search.vue')
         },
         {
+            path: '/SearchResult',
+            name: 'SearchResult',
+            component: require('../pages/SearchResult.vue')
+        },
+        {
             path: '/CourseDetail',
             name: 'CourseDetail',
             component: require('../pages/CourseDetail.vue')
