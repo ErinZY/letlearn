@@ -1,6 +1,7 @@
 <template>
   <div class="detail">
     <router-link to="/" class="course-video"></router-link>
+    <!-- 课程标题和点赞数 -->
     <div class="clickLike">
       <span class="detail-title">{{detailTitle}}</span>
       <div class="likeNum" @click="clickLike">
@@ -12,7 +13,7 @@
     <!--<div class="blankClass"></div>-->
 
     <mt-navbar class="page-part" v-model="selected">
-      <mt-tab-item id="1">详情</mt-tab-item>
+      <mt-tab-item id="1">详情</mt-tab-item>  
       <mt-tab-item id="2">章节</mt-tab-item>
       <mt-tab-item id="3">评价</mt-tab-item>
     </mt-navbar>
@@ -67,7 +68,7 @@
           <ul>
             <li v-for="commentInfo in commentList" class="comment-li">
               <div>
-                <img class="comment-user-img" :src="src" alt="" @error='changeImage($event)'>
+                <img class="comment-user-img" :src="commentatorImgUrl" alt="" @error='changeImage($event)'>
                 <div class="comment-pull-right">
                   <p class="username">{{commentInfo.userName}}</p>
                   <p class="comment">{{commentInfo.commentContent}}</p>
@@ -104,7 +105,7 @@
         buttonBottom: 0
       }
     },
-    props:['video','src','lecturerName','likeNum','detailTitle','introduce','commentNum','commentList','sectionList','likeImgSrc'],
+    props:['video','commentatorImgUrl','lecturerName','likeNum','detailTitle','introduce','commentNum','commentList','sectionList','likeImgSrc'],
     methods:{
       //设置图片加载不出来,或者图片本身不存在时 对应的图片
       changeImage(event){

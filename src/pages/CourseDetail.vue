@@ -47,13 +47,14 @@
         //课程介绍
         introduce:'',
         commentNum:3,
+        // 视频地址
         video: {
           sources: [{
-            src: '../../static/media/测试.mp4',
+            src: '',
             type: 'video/mp4'
           }],
           options: {
-            autoplay: true,
+            autoplay: false,
             volume: 0.6,
             poster: '../../static/images/vediobackground.png'
           }
@@ -116,6 +117,10 @@
       .then(function (response) {
         console.log(response);
         var data=response.data.result[0];
+        // 视频地址
+        that.video.sources[0].src=BashImgUrl+data.courseUrl;
+        // 视频图片
+        that.video.options.poster=BashImgUrl+data.courseIconUrl;
         //课程名
         that.detailTitle=data.courseName;
          //点赞数
