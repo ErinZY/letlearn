@@ -3,9 +3,10 @@
     <router-link to="/" class="course-video"></router-link>
     <div class="clickLike">
       <span class="detail-title">{{detailTitle}}</span>
-      <div class="likeNum">
-        <img src="../../static/images/likes1.svg" class="likes"></img>
-        <span>{{likeNum}}</span></div>
+      <div class="likeNum" @click="clickLike">
+        <img :src="likeImgSrc" class="likes"></img>
+        <span>{{likeNum}}</span>
+      </div>
       </div>
       
     <!--<div class="blankClass"></div>-->
@@ -103,13 +104,17 @@
         buttonBottom: 0
       }
     },
-    props:['video','src','lecturerName','likeNum','detailTitle','introduce','commentNum','commentList','sectionList'],
+    props:['video','src','lecturerName','likeNum','detailTitle','introduce','commentNum','commentList','sectionList','likeImgSrc'],
     methods:{
       //设置图片加载不出来,或者图片本身不存在时 对应的图片
       changeImage(event){
         var target = event.target;
         target.src="../../static/images/girl.svg"
         console.log(target.src)
+      },
+      //点赞
+      clickLike:function(){
+        this.$emit('clickLikes');
       }
     },
 //    mounted() {
@@ -204,8 +209,8 @@
     right:2.5rem;
     top:0.5rem;
     position:absolute;
-    width: 1rem;
-    height: 1rem;
+    width:1rem;
+    height:1rem;
     display: inline;
   }
   .comment-user-img{

@@ -42,7 +42,7 @@
             <li v-for="(courseinfo,index) in allCourse" :key="index">
               <cou-info 
                 :coursePK='courseinfo.pkCourse'
-                :src="courseinfo.courseIconUrl"
+                :src='geturl(courseinfo.courseIconUrl)'
                 :courseName="courseinfo.courseName" 
                 :lecturerName="courseinfo.courseLecturer" 
                 :promulgator="courseinfo.coursePublisher" 
@@ -125,6 +125,9 @@ export default {
       });
   },
   methods: {
+    geturl:function(data){
+        return BashImgUrl+data;
+    },
     // 回到首页
     backhome: function () {
       this.$router.push('/');

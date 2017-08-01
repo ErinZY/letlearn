@@ -75,6 +75,7 @@ export default {
      margin-top:0.75rem;
      margin-left:0.5rem;
     height: 4rem;
+    width:5rem;
 }
 
 .about-course {

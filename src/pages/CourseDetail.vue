@@ -16,13 +16,15 @@
         :commentNum="commentNum"
         :commentList="allComment"
         :sectionList="allSection"
+        @clickLikes="clickLikes"
+        :likeImgSrc="likeImgSrc"
        >
       </v-detail>
     </div>
   </div>
 </template>
 <script scoped>
-  import { Loadmore,Spinner,InfiniteScroll, Toast } from 'mint-ui'
+  import { Loadmore,Spinner,InfiniteScroll, Toast,Indicator } from 'mint-ui'
   import MyVideo from './CourseVideo'
   import Vue from 'vue'
   Vue.use(InfiniteScroll)
@@ -32,12 +34,18 @@
     name: 'CourseDetail',
     data() {
       return{
+        isClikLikes:false,
+        //切换点赞图片地址
+        likeImgSrc:'',
         id:'111111',
         title:'1 使命',
         src:'',
-        likeNum:51,
-        detailTitle:'老王谈用友文化3.0',
-        introduce:'文化3.0之使命',
+        //点赞数
+        likeNum:0,
+        //课程标题
+        detailTitle:'',
+        //课程介绍
+        introduce:'',
         commentNum:3,
         video: {
           sources: [{
@@ -92,7 +100,69 @@
         }]
       }
     },
+    mounted(){
+    var that = this;
+    var id=that.$route.query.courseId;
+    Indicator.open({
+      text: '加载中...',
+      spinnerType: 'snake'
+    });
+    that.axios.get(API + '/Course/SearchCourseById', {
+      params: {
+        courseId:id,
+        useId:''
+      }
+    })
+      .then(function (response) {
+        console.log(response);
+        var data=response.data.result[0];
+        //课程名
+        that.detailTitle=data.courseName;
+         //点赞数
+        that.likeNum=data.courseLikeNumber;
+        //课程介绍
+        that.introduce=data.courseIntroduction;
+        that.isClikLikes=response.data.Likeflag;
+        if(that.isClikLikes){
+            that.likeImgSrc='../../static/images/likes.svg';
+             Indicator.close();
+        }else{
+          that.likeImgSrc='../../static/images/likes1.svg';
+           Indicator.close();
+        }
+       
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
     methods:{
+      //点赞加1
+      clickLikes:function(){
+        var that = this;
+        if(that.isClikLikes){
+            return;
+        }
+        that.likeImgSrc='../../static/images/likes.svg';
+        that.likeNum++;
+    
+    var id=that.$route.query.courseId;
+    that.axios.get(API + '/Course/CourseBehavior', {
+      params: {
+        courseBehaviorType:'03',
+        courseId:id,
+        useId:''
+      }
+    })
+      .then(function (response) {
+        that.isClikLikes=true;
+        console.log(response);
+       
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      }
     },
     components:{
       'v-head':Header,
