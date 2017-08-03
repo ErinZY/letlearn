@@ -79,6 +79,7 @@ export default {
     });
     that.axios.get(API + '/Course/SearchCourse', {
       params: {
+        code:code,
         pageIndex: that.pageIndex,
         pageSize: 5,
         coursename: that.courseName,
@@ -120,6 +121,7 @@ export default {
       setTimeout(() => {
         that.axios.get(API + '/Course/SearchCourse', {
           params: {
+            code:code,
             pageIndex: that.pageIndex,
             pageSize: 5,
             coursename: that.courseName,

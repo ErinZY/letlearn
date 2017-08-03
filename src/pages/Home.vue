@@ -11,10 +11,11 @@
         data(){
             return{
                 bgHeight:document.documentElement.clientHeight +'px',
-                bgWidth:document.documentElement.clientWidth +'px'
+                bgWidth:document.documentElement.clientWidth +'px',
             }
         },
         mounted(){
+            global.code=this.$route.query.code;
             //3s后进入登录界面.
             setTimeout(()=>{
                 this.$router.push("/CourseIndex");

@@ -96,6 +96,7 @@ export default {
     });
     that.axios.get(API + '/Course/SearchCourse', {
       params: {
+        code:code,
         pageIndex: that.pageIndex,
         pageSize: 5,
         coursename: that.courseName
@@ -135,6 +136,9 @@ export default {
     myfiltrate: function () {
       var that = this;
       that.axios.get(API + '/coursetype/listToC', {
+        params:{
+          code:code
+        }
       })
         .then(function (response) {
           if (response.data.success === "success"){
@@ -167,6 +171,7 @@ export default {
       });
       that.axios.get(API + '/Course/SearchCourse', {
         params: {
+          code:code,
           pageIndex: that.pageIndex,
           pageSize: 5,
         }
@@ -204,6 +209,7 @@ export default {
       });
       that.axios.get(API + '/Course/SearchCourse', {
         params: {
+          code:code,
           pageIndex: that.pageIndex,
           pageSize: 5,
           courseTypeIds: data[0]
@@ -243,6 +249,7 @@ export default {
       setTimeout(() => {
         that.axios.get(API + '/Course/SearchCourse', {
           params: {
+            code:code,
             pageIndex: that.pageIndex,
             pageSize: 5,
             coursename: that.courseName

@@ -111,6 +111,7 @@
     });
     that.axios.get(API + '/Course/SearchCourseById', {
       params: {
+        code:code,
         courseId:id,
         useId:''
       }
@@ -159,6 +160,7 @@
     var id=that.$route.query.courseId;
     that.axios.get(API + '/Course/CourseBehavior', {
       params: {
+        code:code,
         courseBehaviorType:'03',
         courseId:id,
         useId:''
@@ -188,6 +190,7 @@
         var id=that.$route.query.courseId;
     that.axios.get(API + '/Course/CourseBehavior', {
       params: {
+        code:code,
         courseBehaviorType:'02',
         courseId:id,
         useId:''
