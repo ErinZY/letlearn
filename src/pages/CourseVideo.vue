@@ -421,6 +421,7 @@ export default {
             this.state.playing = !this.state.playing
             if (this.$video) {
                 if (this.state.playing) {
+                    this.$emit("countPlayNum");
                     this.$video.play()
                     this.mouseLeaveVideo()
                     this.$video.addEventListener('timeupdate', this.timeline)

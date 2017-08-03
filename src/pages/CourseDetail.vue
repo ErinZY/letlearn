@@ -4,7 +4,7 @@
       <!-- <v-head :title="title">
       </v-head> -->
     </div>
-    <my-video :sources="video.sources" :options="video.options"></my-video>
+    <my-video :sources="video.sources" :options="video.options" @countPlayNum="countPlayNum"></my-video>
     <div class="content">
       <v-detail
         :id="id"
@@ -34,6 +34,7 @@
     name: 'CourseDetail',
     data() {
       return{
+        isclickPlay:false,
         isClikLikes:false,
         //切换点赞图片地址
         likeImgSrc:'',
@@ -169,6 +170,32 @@
           that.likeImgSrc='../../static/images/likes.svg';
           that.likeNum++;
           that.isClikLikes=true;
+        }else{
+          Toast("操作失败");
+        }
+        
+       
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      },
+      countPlayNum:function(){
+        var that = this;
+        if(that.isclickPlay){
+          return
+        }
+        var id=that.$route.query.courseId;
+    that.axios.get(API + '/Course/CourseBehavior', {
+      params: {
+        courseBehaviorType:'02',
+        courseId:id,
+        useId:''
+      }
+    })
+      .then(function (response) {
+        if(response.data.detailMsg.data="操作成功"){
+            that.isclickPlay=true;
         }else{
           Toast("操作失败");
         }

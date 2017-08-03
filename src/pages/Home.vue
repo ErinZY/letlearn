@@ -19,7 +19,7 @@
             setTimeout(()=>{
                 this.$router.push("/CourseIndex");
                 // this.$router.push("Main");
-            },3000)
+            },10000)
         },
         methods:{
             into:function(){

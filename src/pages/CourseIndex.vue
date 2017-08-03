@@ -9,7 +9,7 @@
           </div>
           <div class="mySearch">
             <i class="mintui mintui-search"></i>
-            <input type="search" placeholder="搜索" @focus="toSearch">
+            <input type="search" placeholder="请输入课件名称关键字查询" @focus="toSearch">
           </div>
         </div>
         <div class="user-header">
@@ -299,6 +299,7 @@ export default {
 .my-header .top-Header {
   height: 2rem;
   text-align: left;
+  
 }
 
 .back {
@@ -320,40 +321,40 @@ export default {
   padding: 0.25rem 0.25rem;
   border: 0.05rem solid #fff;
   border-radius: 1rem;
-  background-color: #E4E5E7;
+  background-color: #86c840;
 }
 
 .mySearch .mintui-search {
-  color: #B9B9B9;
+  color: #ffffff;
 }
 
 .mySearch input {
   width: 80%;
   text-indent: 0;
   border: 0;
-  background-color: #E4E5E7;
+  background-color: #86c840;
   outline: none;
   /* opacity: 0.2; */
 }
 
 .mySearch input::-webkit-input-placeholder {
   /* WebKit browsers */
-  color: #B9B9B9;
+  color: #ffffff;
 }
 
 .mySearch input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
-  color: #B9B9B9;
+  color: #ffffff;
 }
 
 .mySearch input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
-  color: #B9B9B9;
+  color: #ffffff;
 }
 
 .mySearch input:-ms-input-placeholder {
   /* Internet Explorer 10+ */
-  color: #B9B9B9;
+  color: #ffffff;
 }
 
 .user-header {
@@ -362,9 +363,9 @@ export default {
   position: relative;
   background: #06CF86;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #93EDC7, #06CF86);
+  background: -webkit-linear-gradient(to top, #06CF86, #86c840);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #93EDC7, #06CF86);
+  background: linear-gradient(to bottom, #86c840, #86c840);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
@@ -424,6 +425,7 @@ export default {
 }
 
 .filter span {
+  color:#86c840;
   margin-left: 1rem;
 }
 

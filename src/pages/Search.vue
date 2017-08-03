@@ -7,15 +7,24 @@
         </div>
         <div class="mySearch">
           <i class="mintui mintui-search"></i>
-          <input type="search" placeholder="搜索" v-model="coursename" @keyup.enter="mysearch">
+          <input type="search" placeholder="请输入课件名称关键字查询" v-model="coursename" @keyup.enter="mysearch">
         </div>
         <span class="cancel" @click="mysearch">搜索</span>
       </div>
     </div>
     <div class="uploadTimeClass">
+      <p class="classTitle">视频发布时间</p>
       <ul>
-        <li id="0" @click="choose($event)"><div class="month">以前</div></li>
-        <li v-for="(item,index) in months" :key="index" :id="item+1" @click="choose($event)"><div class="month">{{item+1}} 月</div></li>
+        <li id="0" @click="chooseMonth($event)"><div class="month">以前</div></li>
+        <li v-for="(item,index) in months" :key="index" :id="item+1" @click="chooseMonth($event)"><div class="month">{{item+1}} 月</div></li>
+      </ul>
+      <p class="classTitle">排序规则</p>
+      <ul>
+        <li class="month" @click="chooseOrderName($event)" id="course_publish_time"><div>发布时间</div></li>
+        <li class="month" @click="chooseOrderName($event)" id="course_name"><div>课程名称</div></li>
+        <li class="month" @click="chooseOrderName($event)" id="course_code"><div>课程编号</div></li>
+        <li class="month" @click="chooseOrderName($event)" id="course_broadcast_number"><div>播放量</div></li>
+        <li class="month" @click="chooseOrderName($event)" id="course_like_number"><div>点赞量</div></li>
       </ul>
     </div>
   </div>
@@ -27,7 +36,8 @@ export default {
     return {
       coursename: "", 
       months:[],
-      chooseMonthValue:''
+      chooseMonthValue:'',
+      chooseOrderNameValue:''
     }
   },
   mounted(){
@@ -42,15 +52,34 @@ export default {
       this.$router.push("/CourseIndex");
     },
     mysearch: function () {
-      this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename } });
+      this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename,month:this.chooseMonthValue,field:this.chooseOrderNameValue } });
     },
     // 回到课程首页
     backhome: function () {
       this.$router.push('/CourseIndex');
     },
-    choose:function(event){
-      this.chooseMonthValue=event.target.parentElement.id;
-      this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename,month:this.chooseMonthValue } });
+    chooseMonth:function(event){
+      var lis = document.getElementsByClassName("myselected");
+            if (lis.length > 0) {
+                for (var i = 0; i < lis.length; i++) {
+                    lis[i].removeAttribute("class", "myselected");
+                }
+            }
+      var id=event.target.parentElement.id;
+      this.chooseMonthValue=id;
+      document.getElementById(id).setAttribute("class", "myselected");
+      // this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename,month:this.chooseMonthValue } });
+    },
+    chooseOrderName:function(event){
+        var lis = document.getElementsByClassName("myselected1");
+            if (lis.length > 0) {
+                for (var i = 0; i < lis.length; i++) {
+                    lis[i].removeAttribute("class", "myselected1");
+                }
+            }
+      var id=event.target.parentElement.id;
+      this.chooseOrderNameValue=id;
+      document.getElementById(id).setAttribute("class", "myselected1");
     }
   }
 }
@@ -80,7 +109,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .my-header .top-Header .cancel {
   padding: 0.25rem;
-  color: #b5b5b5;
+  color:#86c840;
 }
 
 .back {
@@ -102,50 +131,57 @@ input[type="search"]::-webkit-search-cancel-button {
   padding: 0.25rem 0.25rem;
   border: 0.05rem solid #fff;
   border-radius: 1rem;
-  background-color: #E4E5E7;
+  background-color: #86c840;
 }
 
 .mySearch .mintui-search {
-  color: #B9B9B9;
+  color: #fff;
 }
 
 .mySearch input {
   width: 90%;
   text-indent: 0;
   border: 0;
-  background-color: #E4E5E7;
+  background-color: #86c840;
   outline: none
   /* opacity: 0.2; */
 }
 
 .mySearch input::-webkit-input-placeholder {
   /* WebKit browsers */
-  color: #B9B9B9;
+  color: #fff;
 }
 
 .mySearch input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
-  color: #B9B9B9;
+  color: #fff;
 }
 
 .mySearch input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
-  color: #B9B9B9;
+  color: #fff;
 }
 
 .mySearch input:-ms-input-placeholder {
   /* Internet Explorer 10+ */
-  color: #B9B9B9;
+  color: #fff;
 }
 .uploadTimeClass{
-  margin-top:1rem;
 }
+.classTitle{
+    color: #656b79;
+    text-align: left;
+    margin-bottom: 0.5rem;
+    padding: 0.5em;
+}
+    
 .uploadTimeClass ul{
   list-style: none;
   display: flex;
   display: -webkit-flex;
   flex-wrap: wrap;
   padding-left: 0.5rem;
+  /* border-bottom: 0.05rem solid #d9d9d9; */
   }
   .uploadTimeClass ul li{
     display: inline-block;
@@ -171,4 +207,12 @@ input[type="search"]::-webkit-search-cancel-button {
     height: 1.5rem;
     line-height: 1.5rem;
   }
+  .myselected div {
+    color: #fff !important;
+    background-color: #86c840 !important;
+}
+.myselected1 div {
+    color: #fff !important;
+    background-color: #86c840 !important;
+}
 </style>

@@ -8,7 +8,7 @@
           </div>
           <div class="mySearch">
             <i class="mintui mintui-search"></i>
-            <input type="search" placeholder="搜索" v-model="courseName" @focus="toSearch">
+            <input type="search" placeholder="请输入课件名称关键字查询" v-model="courseName" @focus="toSearch">
           </div>
           <span class="cancel" @click="toSearch">取消</span>
         </div>
@@ -17,16 +17,7 @@
         <ul>
           <loadmore :autoFill='false' :bottom-method='loadBottom' @bottom-status-change='handleBottomChange' :bottom-all-loaded='allLoaded' ref='loadmore1'>
             <li v-for="(courseinfo,index) in allCourse" :key="index">
-              <cou-info 
-                :coursePK='courseinfo.pkCourse'
-                :src='geturl(courseinfo.courseIconUrl)'
-                :courseName="courseinfo.courseName" 
-                :lecturerName="courseinfo.courseLecturer" 
-                :promulgator="courseinfo.coursePublisher" 
-                :promulgateTime="courseinfo.coursePublishTime" 
-                :playNum="courseinfo.courseBroadcastNumber" 
-                :likesNum="courseinfo.courseLikeNumber" 
-                :commentNum="courseinfo.courseLikeNumber">
+              <cou-info :coursePK='courseinfo.pkCourse' :src='geturl(courseinfo.courseIconUrl)' :courseName="courseinfo.courseName" :lecturerName="courseinfo.courseLecturer" :promulgator="courseinfo.coursePublisher" :promulgateTime="courseinfo.coursePublishTime" :playNum="courseinfo.courseBroadcastNumber" :likesNum="courseinfo.courseLikeNumber" :commentNum="courseinfo.courseLikeNumber">
               </cou-info>
             </li>
             <div slot="bottom" class="mint-loadmore-bottom">
@@ -64,7 +55,13 @@ export default {
       // 页数
       pageIndex: 1,
       // 课程名（通过搜索课程名查询）
-      courseName:'',
+      courseName: '',
+      //所选月份
+      monthValue: '',
+      //所选排序字段名
+      field: '',
+      //所选排序规则
+      sortOrder: '',
       // 所有课程
       allCourse: []
     }
@@ -72,8 +69,10 @@ export default {
   //初始化页面
   mounted() {
     var that = this;
-    that.courseName=that.$route.query.coursename;
-    var monthValue=that.$route.query.month;
+    that.courseName = that.$route.query.coursename;
+    that.monthValue = that.$route.query.month;
+    that.field = that.$route.query.field;
+    that.sortOrder = 'DESC';
     Indicator.open({
       text: '加载中...',
       spinnerType: 'snake'
@@ -82,8 +81,10 @@ export default {
       params: {
         pageIndex: that.pageIndex,
         pageSize: 5,
-        coursename:that.courseName,
-        month:monthValue
+        coursename: that.courseName,
+        month: that.monthValue,
+        field: that.field,
+        sortOrder: that.sortOrder
       }
     })
       .then(function (response) {
@@ -104,30 +105,6 @@ export default {
     backhome: function () {
       this.$router.push('/CourseIndex');
     },
-    // 搜索查询
-    mysearch: function () {
-      var that = this;
-      that.currentCourse=that.courseName;
-      Indicator.open({
-        text: '加载中...',
-        spinnerType: 'snake'
-      });
-      that.axios.get(API + '/Course/SearchCourse', {
-        params: {
-          pageIndex: that.pageIndex,
-          pageSize: 5,
-          coursename: that.courseName
-        }
-      })
-        .then(function (response) {
-          console.log(response);
-          that.allCourse = response.data.detailMsg.data.content;
-          Indicator.close();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
     // 搜索框获得焦点时，跳转新的页面搜索
     toSearch: function () {
       this.$router.push('/Search');
@@ -145,14 +122,16 @@ export default {
           params: {
             pageIndex: that.pageIndex,
             pageSize: 5,
-            coursename: that.courseName
+            coursename: that.courseName,
+            month: that.monthValuee,
+            field: that.field,
+            sortOrder: that.sortOrder
           }
         })
           .then(function (response) {
             var allCourse = response.data.detailMsg.data.content;
             console.log(response.data.detailMsg.data.content);
             if (allCourse.length > 0) {
-              console.log('this allCourse', allCourse)
               that.allCourse.push(...allCourse)
               Indicator.close();
 
@@ -189,7 +168,7 @@ export default {
 
 <style scoped>
 .my-header {
-  border-bottom:0.05rem solid #e5e5e5;
+  border-bottom: 0.05rem solid #e5e5e5;
   text-align: center;
   color: #fff;
   position: relative;
@@ -199,10 +178,12 @@ export default {
   height: 2.25rem;
   text-align: left;
 }
-.my-header .top-Header .cancel{
+
+.my-header .top-Header .cancel {
   padding: 0.25rem;
-  color:#b5b5b5;
+  color: #86c840;
 }
+
 .back {
   margin: 0.625rem;
   position: absolute;
@@ -222,44 +203,46 @@ export default {
   padding: 0.25rem 0.25rem;
   border: 0.05rem solid #fff;
   border-radius: 1rem;
-  background-color: #E4E5E7;
+  background-color: #86c840;
 }
 
 .mySearch .mintui-search {
-  color: #B9B9B9;
+  color: #86c840;
 }
 
 .mySearch input {
-  width: 80%;
+  width: 90%;
   text-indent: 0;
   border: 0;
-  background-color: #E4E5E7;
+  background-color: #86c840;
   outline: none
   /* opacity: 0.2; */
 }
 
 .mySearch input::-webkit-input-placeholder {
   /* WebKit browsers */
-  color: #B9B9B9;
+  color: #fff;
 }
 
 .mySearch input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
-  color: #B9B9B9;
+  color: #fff;
 }
 
 .mySearch input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
-  color: #B9B9B9;
+  color: #fff;
 }
 
 .mySearch input:-ms-input-placeholder {
   /* Internet Explorer 10+ */
-  color: #B9B9B9;
+  color: #fff;
 }
-.course-list{
-  margin-top:0.25rem;
+
+.course-list {
+  margin-top: 0.25rem;
 }
+
 .mint-loadmore {
   width: 100%;
 }
@@ -275,6 +258,7 @@ li {
 .search-input .mint-search {
   height: 2.5rem;
 }
+
 .tip {
   display: inline-block;
   margin-top: 2rem;
