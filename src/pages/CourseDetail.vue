@@ -56,7 +56,7 @@
           options: {
             autoplay: false,
             volume: 0.6,
-            poster: '../../static/images/vediobackground.png'
+            poster: ''
           }
         },
         allComment: [{
@@ -115,8 +115,8 @@
       }
     })
       .then(function (response) {
-        console.log(response);
-        var data=response.data.result[0];
+        if (response.data.success === "success"){
+          var data=response.data.detailMsg.data.result[0];
         // 视频地址
         that.video.sources[0].src=BashImgUrl+data.courseUrl;
         // 视频图片
@@ -127,7 +127,8 @@
         that.likeNum=data.courseLikeNumber;
         //课程介绍
         that.introduce=data.courseIntroduction;
-        that.isClikLikes=response.data.Likeflag;
+        //是否点赞过
+        that.isClikLikes=response.data.detailMsg.data.Likeflag;
         if(that.isClikLikes){
             that.likeImgSrc='../../static/images/likes.svg';
              Indicator.close();
@@ -135,6 +136,10 @@
           that.likeImgSrc='../../static/images/likes1.svg';
            Indicator.close();
         }
+        }else{
+          Toast("查询失败");
+        }
+        
        
       })
       .catch(function (error) {
@@ -148,8 +153,7 @@
         if(that.isClikLikes){
             return;
         }
-        that.likeImgSrc='../../static/images/likes.svg';
-        that.likeNum++;
+        
     
     var id=that.$route.query.courseId;
     that.axios.get(API + '/Course/CourseBehavior', {
@@ -160,8 +164,15 @@
       }
     })
       .then(function (response) {
-        that.isClikLikes=true;
         console.log(response);
+        if(response.data.detailMsg.data="操作成功"){
+          that.likeImgSrc='../../static/images/likes.svg';
+          that.likeNum++;
+          that.isClikLikes=true;
+        }else{
+          Toast("操作失败");
+        }
+        
        
       })
       .catch(function (error) {

@@ -6,7 +6,7 @@
 }
 .__cov-video {
     width: 100%;
-    height: 100%;
+    max-height: 12rem;
     vertical-align: bottom;
 }
 .__cov-contrl-content {

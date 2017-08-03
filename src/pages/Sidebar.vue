@@ -63,7 +63,6 @@ export default {
                 }
             }
             var id = event.target.parentElement.id;
-            console.log(event.target.innerText);
             this.selectedCourseId = id;
             this.currentCourse=event.target.innerText;
             document.getElementById(id).setAttribute("class", "myselected");

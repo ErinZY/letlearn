@@ -1,56 +1,73 @@
 <template>
   <div id="Search">
-    <!-- <div class="search-input">
-    <div class="mint-search">
-      <div class="mint-searchbar">
-        <div class="mint-searchbar-inner">
-          <i class="mintui mintui-search"></i>
-          <input v-model="coursename" type="search" placeholder="请输入关键字" class="mint-searchbar-core" @keyup.enter="mysearch">
+    <div class="my-header">
+      <div class="top-Header">
+        <div class="back" @click="backhome">
+          <img src="../../static/images/back.svg" alt="">
         </div>
-        <a class="mint-searchbar-cancel" @click="backSearch">取消</a>
+        <div class="mySearch">
+          <i class="mintui mintui-search"></i>
+          <input type="search" placeholder="搜索" v-model="coursename" @keyup.enter="mysearch">
+        </div>
+        <span class="cancel" @click="mysearch">搜索</span>
       </div>
     </div>
-  </div> -->
-  <div class="my-header">
-        <div class="top-Header">
-          <div class="back" @click="backhome">
-            <img src="../../static/images/back.svg" alt="">
-          </div>
-          <div class="mySearch">
-            <i class="mintui mintui-search"></i>
-            <input type="search" placeholder="搜索" v-model="coursename" @keyup.enter="mysearch">
-          </div>
-          <span class="cancel" @click="mysearch">搜索</span>
-        </div>
-      </div>
+    <div class="uploadTimeClass">
+      <ul>
+        <li id="0" @click="choose($event)"><div class="month">以前</div></li>
+        <li v-for="(item,index) in months" :key="index" :id="item+1" @click="choose($event)"><div class="month">{{item+1}} 月</div></li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
 export default {
   name: 'Search',
-  data(){
-    return{
-      coursename:""
+  data() {
+    return {
+      coursename: "", 
+      months:[],
+      chooseMonthValue:''
     }
   },
-  methods:{
-    backSearch:function(){
+  mounted(){
+    var date=new Date;
+    var month=date.getMonth()+1;
+    for(var i=0;i<month;i++){
+      this.months.push(i);
+    }
+  },
+  methods: {
+    backSearch: function () {
       this.$router.push("/CourseIndex");
     },
-    mysearch:function(){
-      this.$router.push({path: '/SearchResult', query: {coursename:this.coursename}});
+    mysearch: function () {
+      this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename } });
     },
     // 回到课程首页
     backhome: function () {
       this.$router.push('/CourseIndex');
     },
+    choose:function(event){
+      this.chooseMonthValue=event.target.parentElement.id;
+      this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename,month:this.chooseMonthValue } });
+    }
   }
 }
 </script>
 
 <style scoped>
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 50%;
+  background: url("../../static/images/cancel.svg") no-repeat 0 0;
+  background-size: 1.25rem 1.25rem;
+}
+
 .my-header {
-  border-bottom:0.05rem solid #e5e5e5;
+  border-bottom: 0.05rem solid #e5e5e5;
   text-align: center;
   color: #fff;
   position: relative;
@@ -60,10 +77,12 @@ export default {
   height: 2.25rem;
   text-align: left;
 }
-.my-header .top-Header .cancel{
+
+.my-header .top-Header .cancel {
   padding: 0.25rem;
-  color:#b5b5b5;
+  color: #b5b5b5;
 }
+
 .back {
   margin: 0.625rem;
   position: absolute;
@@ -91,7 +110,7 @@ export default {
 }
 
 .mySearch input {
-  width: 80%;
+  width: 90%;
   text-indent: 0;
   border: 0;
   background-color: #E4E5E7;
@@ -118,4 +137,38 @@ export default {
   /* Internet Explorer 10+ */
   color: #B9B9B9;
 }
+.uploadTimeClass{
+  margin-top:1rem;
+}
+.uploadTimeClass ul{
+  list-style: none;
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+  padding-left: 0.5rem;
+  }
+  .uploadTimeClass ul li{
+    display: inline-block;
+  }
+  .uploadTimeClass ul li div{
+    color: #656b79;
+    background-color: #f6f8fa;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.75rem;
+    border: 0;
+    box-sizing: border-box;
+    display: block;
+    outline: 0;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    margin-right: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.5rem;
+    width: 3.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+  }
 </style>

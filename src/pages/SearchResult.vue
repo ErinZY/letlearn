@@ -19,7 +19,7 @@
             <li v-for="(courseinfo,index) in allCourse" :key="index">
               <cou-info 
                 :coursePK='courseinfo.pkCourse'
-                :src="courseinfo.courseIconUrl"
+                :src='geturl(courseinfo.courseIconUrl)'
                 :courseName="courseinfo.courseName" 
                 :lecturerName="courseinfo.courseLecturer" 
                 :promulgator="courseinfo.coursePublisher" 
@@ -38,6 +38,7 @@
             </div>
           </loadmore>
         </ul>
+        <span class="tip" v-if="isnull">~~暂无相关课程~~</span>
       </div>
     </div>
   </div>
@@ -53,6 +54,7 @@ export default {
   name: 'SearchResult',
   data() {
     return {
+      isnull: false,
       //是否全部加载
       allLoaded: false,
       //底部状态（加载更多）
@@ -71,6 +73,7 @@ export default {
   mounted() {
     var that = this;
     that.courseName=that.$route.query.coursename;
+    var monthValue=that.$route.query.month;
     Indicator.open({
       text: '加载中...',
       spinnerType: 'snake'
@@ -79,7 +82,8 @@ export default {
       params: {
         pageIndex: that.pageIndex,
         pageSize: 5,
-        coursename:that.courseName
+        coursename:that.courseName,
+        month:monthValue
       }
     })
       .then(function (response) {
@@ -93,6 +97,9 @@ export default {
       });
   },
   methods: {
+    geturl: function (data) {
+      return BashImgUrl + data;
+    },
     // 回到课程首页
     backhome: function () {
       this.$router.push('/CourseIndex');
@@ -267,5 +274,10 @@ li {
 
 .search-input .mint-search {
   height: 2.5rem;
+}
+.tip {
+  display: inline-block;
+  margin-top: 2rem;
+  text-align: center;
 }
 </style>

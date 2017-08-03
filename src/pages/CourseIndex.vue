@@ -1,11 +1,6 @@
 <template>
   <div id="CourseIndex" ref="CourseIndex">
-    <sidebar 
-    :sidebarList="sidebarList" 
-    v-if="isClickFilter" 
-    @closeit="closeMySidebar" 
-    @lookAllCourse="showAllCourse" 
-    @searchCourse="searchCourse"></sidebar>
+    <sidebar :sidebarList="sidebarList" v-if="isClickFilter" @closeit="closeMySidebar" @lookAllCourse="showAllCourse" @searchCourse="searchCourse"></sidebar>
     <div class="course">
       <div class="my-header">
         <div class="top-Header">
@@ -14,7 +9,7 @@
           </div>
           <div class="mySearch">
             <i class="mintui mintui-search"></i>
-            <input type="search" placeholder="搜索" v-model="courseName" @focus="toSearch">
+            <input type="search" placeholder="搜索" @focus="toSearch">
           </div>
         </div>
         <div class="user-header">
@@ -23,8 +18,8 @@
           </div>
           <div class="header-title">
             <p>课程列表</p>
-             <span>当前课程-</span>
-            <span>{{currentCourse}}</span> 
+            <span>当前课程-</span>
+            <span>{{currentCourse}}</span>
           </div>
           <div class="filter">
             <div class="filterBtn" @click="myfiltrate">
@@ -40,16 +35,7 @@
         <ul>
           <loadmore :autoFill='false' :bottom-method='loadBottom' @bottom-status-change='handleBottomChange' :bottom-all-loaded='allLoaded' ref='loadmore1'>
             <li v-for="(courseinfo,index) in allCourse" :key="index">
-              <cou-info 
-                :coursePK='courseinfo.pkCourse'
-                :src='geturl(courseinfo.courseIconUrl)'
-                :courseName="courseinfo.courseName" 
-                :lecturerName="courseinfo.courseLecturer" 
-                :promulgator="courseinfo.coursePublisher" 
-                :promulgateTime="courseinfo.coursePublishTime" 
-                :playNum="courseinfo.courseBroadcastNumber" 
-                :likesNum="courseinfo.courseLikeNumber" 
-                :commentNum="courseinfo.courseLikeNumber">
+              <cou-info :coursePK='courseinfo.pkCourse' :src='geturl(courseinfo.courseIconUrl)' :courseName="courseinfo.courseName" :lecturerName="courseinfo.courseLecturer" :promulgator="courseinfo.coursePublisher" :promulgateTime="courseinfo.coursePublishTime" :playNum="courseinfo.courseBroadcastNumber" :likesNum="courseinfo.courseLikeNumber" :commentNum="courseinfo.courseLikeNumber">
               </cou-info>
             </li>
             <div slot="bottom" class="mint-loadmore-bottom">
@@ -61,7 +47,7 @@
             </div>
           </loadmore>
         </ul>
-  
+        <span class="tip" v-if="isnull">~~暂无相关课程~~</span>
       </div>
     </div>
   </div>
@@ -78,6 +64,7 @@ export default {
   name: 'CourseIndex',
   data() {
     return {
+      isnull: false,
       //头部是否含有右边的东西
       hasRight: true,
       wrapperHeight: 0,
@@ -102,7 +89,7 @@ export default {
   //初始化页面
   mounted() {
     var that = this;
-    that.courseName=that.$route.query.coursename;
+    that.courseName = that.$route.query.coursename;
     Indicator.open({
       text: '加载中...',
       spinnerType: 'snake'
@@ -111,50 +98,38 @@ export default {
       params: {
         pageIndex: that.pageIndex,
         pageSize: 5,
-        coursename:that.courseName
+        coursename: that.courseName
       }
     })
       .then(function (response) {
-        console.log(response);
-        that.allCourse = response.data.detailMsg.data.content;
-        Indicator.close();
-        console.log(that.allCourse);
+        if (response.data.success === "success") {
+          var data = response.data.detailMsg.data.content;
+          if (data.length > 0) {
+            that.isnull = false;
+            that.allCourse = data;
+            Indicator.close();
+          } else {
+            that.allCourse = "";
+            that.isnull = true;
+            Indicator.close();
+          }
+        } else {
+          Toast("查询失败");
+        }
+
+
       })
       .catch(function (error) {
         console.log(error);
       });
   },
   methods: {
-    geturl:function(data){
-        return BashImgUrl+data;
+    geturl: function (data) {
+      return BashImgUrl + data;
     },
     // 回到首页
     backhome: function () {
       this.$router.push('/');
-    },
-    // 搜索查询
-    mysearch: function () {
-      var that = this;
-      that.currentCourse=that.courseName;
-      Indicator.open({
-        text: '加载中...',
-        spinnerType: 'snake'
-      });
-      that.axios.get(API + '/Course/SearchCourse', {
-        params: {
-          pageIndex: that.pageIndex,
-          pageSize: 5,
-          coursename: that.courseName
-        }
-      })
-        .then(function (response) {
-          console.log(response);
-          that.allCourse = response.data.detailMsg.data.content;
-          Indicator.close();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
     },
     // 点击出现筛选侧边栏
     myfiltrate: function () {
@@ -162,9 +137,13 @@ export default {
       that.axios.get(API + '/coursetype/listToC', {
       })
         .then(function (response) {
-          console.log(response);
-          that.isClickFilter = true;
-          that.sidebarList=response.data.sublist;
+          if (response.data.success === "success"){
+            that.isClickFilter = true;
+            that.sidebarList = response.data.detailMsg.data.sublist;
+          }else{
+            Toast("查询失败");
+          }
+          
         })
         .catch(function (error) {
           console.log(error);
@@ -180,7 +159,7 @@ export default {
     },
     //查看全部课程
     showAllCourse: function () {
-      this.currentCourse="全部课程";
+      this.currentCourse = "全部课程";
       var that = this;
       Indicator.open({
         text: '加载中...',
@@ -193,10 +172,23 @@ export default {
         }
       })
         .then(function (response) {
-          console.log(response);
-          that.allCourse = response.data.detailMsg.data.content;
-          Indicator.close();
-          that.isClickFilter = false;
+          if (response.data.success === "success") {
+            var data = response.data.detailMsg.data.content;
+            if (data.length > 0) {
+              that.isnull = false;
+              that.allCourse = data;
+              Indicator.close();
+              that.isClickFilter = false;
+            } else {
+              that.isnull = true;
+              that.allCourse = "";
+              Indicator.close();
+              that.isClickFilter = false;
+            }
+          } else {
+            Toast("查询失败");
+          }
+
         })
         .catch(function (error) {
           console.log(error);
@@ -204,7 +196,7 @@ export default {
     },
     // 通过点击侧边栏的某个课程分类筛选
     searchCourse: function (...data) {
-      this.currentCourse=data[1];
+      this.currentCourse = data[1];
       var that = this;
       Indicator.open({
         text: '加载中...',
@@ -218,10 +210,23 @@ export default {
         }
       })
         .then(function (response) {
-          console.log(response);
-          that.allCourse = response.data.detailMsg.data.content;
-          Indicator.close();
-          that.isClickFilter = false;
+          if (response.data.success === "success") {
+            var data = response.data.detailMsg.data.content;
+            if (data.length > 0) {
+              that.isnull = false;
+              that.allCourse = data;
+              Indicator.close();
+              that.isClickFilter = false;
+            } else {
+              that.isnull = true;
+              that.allCourse = "";
+              Indicator.close();
+              that.isClickFilter = false;
+            }
+          } else {
+            Toast("查询失败");
+          }
+
         })
         .catch(function (error) {
           console.log(error);
@@ -244,30 +249,32 @@ export default {
           }
         })
           .then(function (response) {
-            var allCourse = response.data.detailMsg.data.content;
-            console.log(response.data.detailMsg.data.content);
-            if (allCourse.length > 0) {
-              console.log('this allCourse', allCourse)
-              that.allCourse.push(...allCourse)
-              Indicator.close();
-
+            if (response.data.success === "success") {
+              var allCourse = response.data.detailMsg.data.content;
+              if (allCourse.length > 0) {
+                that.allCourse.push(...allCourse);
+                Indicator.close();
+              } else {
+                Indicator.close();
+                let instance = Toast('无更多课程');
+                setTimeout(() => {
+                  instance.close();
+                }, 1000)
+                that.allLoaded = true;
+              }
             } else {
-              Indicator.close();
-              let instance = Toast('无更多课程')
-              setTimeout(() => {
-                instance.close();
-              }, 1000)
-              that.allLoaded = true
+              Toast("查询失败");
             }
+
           })
           .catch(function (error) {
             console.log(error);
           });
       }, 1000)
-      that.$refs.loadmore1.onBottomLoaded(id)
+      that.$refs.loadmore1.onBottomLoaded(id);
     },
     handleBottomChange(status) {
-      this.bottomStatus = status
+      this.bottomStatus = status;
     },
   },
   components: {
@@ -325,7 +332,7 @@ export default {
   text-indent: 0;
   border: 0;
   background-color: #E4E5E7;
-  outline: none
+  outline: none;
   /* opacity: 0.2; */
 }
 
@@ -434,5 +441,11 @@ li {
 
 .search-input .mint-search {
   height: 2.5rem;
+}
+
+.tip {
+  display: inline-block;
+  margin-top: 2rem;
+  text-align: center;
 }
 </style>
