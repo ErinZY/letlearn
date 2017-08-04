@@ -86,14 +86,17 @@ export default {
 </script>
 
 <style scoped>
-input[type="search"]::-webkit-search-cancel-button {
+ input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
-  height: 1.25rem;
-  width: 1.25rem;
+  position:absolute;
+  top:-0.25rem;
+  right:0;
+  height: 1rem;
+  width: 1rem;
   border-radius: 50%;
   background: url("../../static/images/cancel.svg") no-repeat 0 0;
   background-size: 1.25rem 1.25rem;
-}
+} 
 
 .my-header {
   border-bottom: 0.05rem solid #e5e5e5;
@@ -103,18 +106,19 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .my-header .top-Header {
-  height: 2.25rem;
+  height: 2.5rem;
   text-align: left;
 }
 
 .my-header .top-Header .cancel {
-  padding: 0.25rem;
+  padding: 0.2rem;
   color:#86c840;
 }
 
 .back {
-  margin: 0.625rem;
-  position: absolute;
+   position: absolute;
+  top:0.75rem;
+  left:0.65rem;
   display: inline-block;
 }
 
@@ -124,22 +128,27 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .mySearch {
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   margin-left: 1.75rem;
   display: inline-block;
-  width: 70%;
-  padding: 0.25rem 0.25rem;
+  width: 75%;
+  height:1.5rem;
+  line-height: 1.5rem;
+  /* padding: 0.25rem 0.25rem; */
   border: 0.05rem solid #fff;
   border-radius: 1rem;
   background-color: #86c840;
 }
 
 .mySearch .mintui-search {
+  /* margin-left: 0.25rem; */
+  margin-left: 0.25rem;
   color: #fff;
 }
 
 .mySearch input {
-  width: 90%;
+  position:relative;
+  width: 80%;
   text-indent: 0;
   border: 0;
   background-color: #86c840;

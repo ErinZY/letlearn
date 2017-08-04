@@ -73,10 +73,10 @@ export default {
     that.monthValue = that.$route.query.month;
     that.field = that.$route.query.field;
     that.sortOrder = 'DESC';
-    Indicator.open({
-      text: '加载中...',
-      spinnerType: 'snake'
-    });
+    // Indicator.open({
+    //   text: '加载中...',
+    //   spinnerType: 'snake'
+    // });
     that.axios.get(API + '/Course/SearchCourse', {
       params: {
         code:code,
@@ -177,18 +177,20 @@ export default {
 }
 
 .my-header .top-Header {
-  height: 2.25rem;
+  height: 2.5rem;
   text-align: left;
 }
 
 .my-header .top-Header .cancel {
-  padding: 0.25rem;
+   padding: 0.2rem; 
+  /* margin-left: 0.2rem; */
   color: #86c840;
 }
 
 .back {
-  margin: 0.625rem;
   position: absolute;
+   top:0.75rem;
+  left:0.65rem; 
   display: inline-block;
 }
 
@@ -198,22 +200,26 @@ export default {
 }
 
 .mySearch {
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   margin-left: 1.75rem;
   display: inline-block;
-  width: 70%;
-  padding: 0.25rem 0.25rem;
+  width: 75%;
+   height:1.5rem;
+   line-height: 1.5rem;
+  /* padding: 0.25rem 0.25rem; */
   border: 0.05rem solid #fff;
   border-radius: 1rem;
   background-color: #86c840;
 }
 
 .mySearch .mintui-search {
-  color: #86c840;
+  /* margin-left: 0.5rem; */
+  margin-left: 0.25rem;
+  color: #ffffff;
 }
 
 .mySearch input {
-  width: 90%;
+  width: 80%;
   text-indent: 0;
   border: 0;
   background-color: #86c840;

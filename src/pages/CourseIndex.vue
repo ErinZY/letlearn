@@ -90,10 +90,10 @@ export default {
   mounted() {
     var that = this;
     that.courseName = that.$route.query.coursename;
-    Indicator.open({
-      text: '加载中...',
-      spinnerType: 'snake'
-    });
+    // Indicator.open({
+    //   text: '加载中...',
+    //   spinnerType: 'snake'
+    // });
     that.axios.get(API + '/Course/SearchCourse', {
       params: {
         code:code,
@@ -304,14 +304,16 @@ export default {
 }
 
 .my-header .top-Header {
-  height: 2rem;
+  height: 2.5rem;
   text-align: left;
   
 }
 
 .back {
-  margin: 0.5rem;
+  /* margin: 0.5rem; */
   position: absolute;
+  top:0.75rem;
+  left:0.65rem;
   display: inline-block;
 }
 
@@ -321,17 +323,22 @@ export default {
 }
 
 .mySearch {
-  margin-top: 0.25rem;
-  margin-left: 1.75rem;
+   margin-top: 0.5rem; 
+   margin-left: 1.75rem; 
   display: inline-block;
   width: 80%;
-  padding: 0.25rem 0.25rem;
+  height:1.5rem;
+  line-height: 1.5rem;
+  /* padding: 0.25rem 0.25rem; */
   border: 0.05rem solid #fff;
   border-radius: 1rem;
   background-color: #86c840;
 }
 
 .mySearch .mintui-search {
+   /* display: inline-block; 
+  margin-top:0.1rem; */
+  margin-left: 0.5rem;
   color: #ffffff;
 }
 
