@@ -60,27 +60,28 @@
             poster: ''
           }
         },
-        allComment: [{
-          userIcon:'',
-          userName: 'zhangying',
-          commentContent: '测试1',
-          day: '1周前',
-          like: '0'
-        },
-          {
-            userIcon:'',
-            userName: 'youxiaowei',
-            commentContent: '测试2',
-            day: '2周前',
-            like: '1'
-          },
-          {
-            userIcon:'',
-            userName: 'yangxueying',
-            commentContent: '测试3',
-            day: '3周前',
-            like: '3'
-          }],
+        allComment:[],
+        //  [{
+        //   userIcon:'',
+        //   userName: 'zhangying',
+        //   commentContent: '测试1',
+        //   day: '1周前',
+        //   like: '0'
+        // },
+        //   {
+        //     userIcon:'',
+        //     userName: 'youxiaowei',
+        //     commentContent: '测试2',
+        //     day: '2周前',
+        //     like: '1'
+        //   },
+        //   {
+        //     userIcon:'',
+        //     userName: 'yangxueying',
+        //     commentContent: '测试3',
+        //     day: '3周前',
+        //     like: '3'
+        //   }],
         allSection:[{
             part:'1',
             title:'1 使命'
@@ -109,6 +110,7 @@
       text: '加载中...',
       spinnerType: 'snake'
     });
+    // 查询课程详情
     that.axios.get(API + '/Course/SearchCourseById', {
       params: {
         code:code,
@@ -147,6 +149,24 @@
       .catch(function (error) {
         console.log(error);
       });
+
+    // 查询课程对应的评论
+    that.axios.get(API + '/comment/list', {
+       params: {
+        code:code,
+        courseId:id
+      }
+    }).then(function(response){
+         console.log(response);
+         if (response.data.success === "success"){
+          that.allComment=response.data.detailMsg.data;
+         }
+    }).catch(function (error) {
+        console.log(error);
+      });
+
+
+
     },
     methods:{
       //点赞加1
