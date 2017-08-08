@@ -4,10 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+axios.defaults.withCredentials = true
 Vue.prototype.axios = axios
-    // 正是环境
-    // global.API = "http://cdmp.yonyou.com/upesn"
-    // 测试环境
+
+// 正是环境
+// global.API = "http://cdmp.yonyou.com/upesn"
+// 测试环境
 global.API = "http://cdmptest:8080/upesn"
     // 本地环境
     // global.API = "http://localhost:8080/upesn"

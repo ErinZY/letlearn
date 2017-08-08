@@ -33,7 +33,6 @@
 <style scoped>
     .homeBg{
         position:relative;
-        /* background: url('../../static/images/home_img@2x.png') no-repeat fixed 50% 20%; */
     }
     .intoStudy{
         color:#fff;

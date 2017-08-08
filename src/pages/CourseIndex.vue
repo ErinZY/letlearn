@@ -90,10 +90,10 @@ export default {
   mounted() {
     var that = this;
     that.courseName = that.$route.query.coursename;
-    // Indicator.open({
-    //   text: '加载中...',
-    //   spinnerType: 'snake'
-    // });
+    Indicator.open({
+      text: '加载中...',
+      spinnerType: 'snake'
+    });
     that.axios.get(API + '/Course/SearchCourse', {
       params: {
         code:code,
@@ -116,11 +116,13 @@ export default {
           }
         } else {
           Toast("查询失败");
+          Indicator.close();
         }
 
 
       })
       .catch(function (error) {
+        Indicator.close();
         console.log(error);
       });
   },
