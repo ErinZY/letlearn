@@ -7,14 +7,13 @@
     <my-video :sources="video.sources" :options="video.options" @countPlayNum="countPlayNum"></my-video>
     <div class="content">
       <v-detail
-        :id="id"
+        :courseId='courseId'
         :src="src"
         :likeNum="likeNum"
         :detailTitle="detailTitle"
         :introduce="introduce"
         :userSelfIcon="src"
         :commentNum="commentNum"
-        :commentList="allComment"
         :sectionList="allSection"
         @clickLikes="clickLikes"
         :likeImgSrc="likeImgSrc"
@@ -38,7 +37,7 @@
         isClikLikes:false,
         //切换点赞图片地址
         likeImgSrc:'',
-        id:'111111',
+        courseId:'',
         title:'1 使命',
         src:'',
         //点赞数
@@ -60,7 +59,6 @@
             poster: ''
           }
         },
-        allComment:[],
         //  [{
         //   userIcon:'',
         //   userName: 'zhangying',
@@ -82,30 +80,32 @@
         //     day: '3周前',
         //     like: '3'
         //   }],
-        allSection:[{
-            part:'1',
-            title:'1 使命'
-        },{
-            part:'2',
-            title:'2 愿景'
-        },{
-            part:'3',
-            title:'3 用友价值观——用户之友'
-        },{
-            part:'4',
-            title:'4 用友价值观——专业奋斗'
-        },{
-            part:'5',
-            title:'5 用友价值观——开放创新'
-        },{
-            part:'6',
-            title:'6 用友价值观——诚信合作'
-        }]
+        allSection:[
+        //   {
+        //     part:'1',
+        //     title:'1 使命'
+        // },{
+        //     part:'2',
+        //     title:'2 愿景'
+        // },{
+        //     part:'3',
+        //     title:'3 用友价值观——用户之友'
+        // },{
+        //     part:'4',
+        //     title:'4 用友价值观——专业奋斗'
+        // },{
+        //     part:'5',
+        //     title:'5 用友价值观——开放创新'
+        // },{
+        //     part:'6',
+        //     title:'6 用友价值观——诚信合作'
+        // }
+        ]
       }
     },
     mounted(){
     var that = this;
-    var id=that.$route.query.courseId;
+    that.courseId=that.$route.query.courseId;
     Indicator.open({
       text: '加载中...',
       spinnerType: 'snake'
@@ -114,7 +114,7 @@
     that.axios.get(API + '/Course/SearchCourseById', {
       params: {
         code:code,
-        courseId:id,
+        courseId:that.courseId,
         useId:''
       }
     })
@@ -143,30 +143,10 @@
         }else{
           Toast("查询失败");
         }
-        
-       
       })
       .catch(function (error) {
         console.log(error);
       });
-
-    // 查询课程对应的评论
-    that.axios.get(API + '/comment/list', {
-       params: {
-        code:code,
-        courseId:id
-      }
-    }).then(function(response){
-         console.log(response);
-         if (response.data.success === "success"){
-          that.allComment=response.data.detailMsg.data;
-         }
-    }).catch(function (error) {
-        console.log(error);
-      });
-
-
-
     },
     methods:{
       //点赞加1

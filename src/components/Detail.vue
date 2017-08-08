@@ -11,11 +11,11 @@
       </div>
       
     <!--<div class="blankClass"></div>-->
-
+    <!-- 详情，章节，评价导航切换 -->
     <mt-navbar class="page-part" v-model="selected">
       <mt-tab-item id="1">详情</mt-tab-item>  
       <mt-tab-item id="2">章节</mt-tab-item>
-      <mt-tab-item id="3">评价</mt-tab-item>
+      <mt-tab-item id="3"><span @click="initComment" class="comment">评价</span></mt-tab-item>
     </mt-navbar>
     <div class="blankClass"></div>
     <mt-tab-container v-model="selected">
@@ -69,13 +69,13 @@
           <ul>
             <li v-for="commentInfo in commentList" class="comment-li">
               <div>
-                <img class="comment-user-img" :src="commentatorImgUrl" alt="" @error='changeImage($event)'>
+                <img class="comment-user-img" :src="commentInfo.userPic" alt="" @error='changeImage($event)'>
                 <div class="comment-pull-right">
                   <p class="username">{{commentInfo.userName}}</p>
                   <p class="comment">{{commentInfo.content}}</p>
                   <p class="other">
                     <span class="day">{{commentInfo.createTime}}</span>
-                    <span class="like">{{commentInfo.like}} 赞</span>
+                    <!-- <span class="like">{{commentInfo.like}} 赞</span> -->
                   </p>
                 </div>
               </div>
@@ -88,7 +88,7 @@
   </div>
 </template>
 <script>
-  import { Button, Cell, Navbar, TabItem, TabContainer,Toast, TabContainerItem, Popup } from 'mint-ui';
+  import {Indicator, Button, Cell, Navbar, TabItem, TabContainer,Toast, TabContainerItem, Popup } from 'mint-ui';
   import Vue from 'vue';
   Vue.component(Button.name, Button);
   Vue.component(Cell.name, Cell);
@@ -105,9 +105,10 @@
         popupVisible1: false,
         buttonBottom: 0,
         content:'',
+        commentList:''
       }
     },
-    props:['video','commentatorImgUrl','lecturerName','likeNum','detailTitle','introduce','commentNum','commentList','sectionList','likeImgSrc'],
+    props:['courseId','video','lecturerName','likeNum','detailTitle','introduce','commentNum','sectionList','likeImgSrc'],
     methods:{
       //设置图片加载不出来,或者图片本身不存在时 对应的图片
       changeImage(event){
@@ -122,9 +123,37 @@
       close:function(){
         this.popupVisible1=false;
       },
+       // 查询课程对应的评论
+      initComment:function(){
+        Indicator.open({
+        text: '加载中...',
+        spinnerType: 'snake'
+      });
+        var that=this; 
+    that.axios.get(API + '/comment/list', {
+       params: {
+        code:code,
+        courseId:that.courseId
+      }
+    }).then(function(response){
+         if (response.data.success === "success"){
+           console.log(response.data.detailMsg.data);
+          that.commentList=response.data.detailMsg.data;
+          Indicator.close();
+         }else{
+           Indicator.close();
+           Toast("查询失败");
+         }
+    }).catch(function (error) {
+        console.log(error);
+        Indicator.close();
+      });
+      },
+      //提交评论
       commit:function(){
          var that = this;
         if(that.content==''){
+          that.popupVisible1=false;
           Toast("评论不能为空");
           return;
         }
@@ -132,14 +161,16 @@
         that.axios.get(API + '/comment/save', {
           params: {
             code:code,
-            content:that.content
+            courseId:this.courseId,
+            content:that.content           
           }
         }).then(function(response){
             console.log(response);
             if (response.data.success === "success"){
                 that.content='';
+                var newComment=response.data.detailMsg.data;
+                that.commentList.push(...newComment);
                 that.popupVisible1=false;
-                
             }else{
                Toast("评论保存失败");
             }
@@ -234,6 +265,12 @@
     width:1rem;
     height:1rem;
   } */
+  .page-part .comment{
+    text-align: center;
+      width:100%;
+      height: 100%;
+      display: inline-block;
+  }
   .total-comment{
     position:relative;
   }
@@ -299,7 +336,8 @@
     margin-left: 10.9rem;
     width: 1rem;
     height: 1rem;
-    border-radius: 0.5rem;
+    line-height: 1rem;
+    border-radius: 100%;
   }
   .text-content{
     margin-bottom: 0.5rem;

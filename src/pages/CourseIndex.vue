@@ -232,6 +232,7 @@ export default {
               that.isClickFilter = false;
             }
           } else {
+            Indicator.close();
             Toast("查询失败");
           }
 

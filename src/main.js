@@ -12,7 +12,7 @@ Vue.prototype.axios = axios
 // 测试环境
 // global.API = "http://cdmptest:8080/upesn"
 // 本地环境
-global.API = "http://localhost:8080/upesn"
+global.API = "http://localhost:80/upesn"
     // 图片地址
 global.BashImgUrl = "http://cdmptest:8080/upesn/"
 global.code = ''
