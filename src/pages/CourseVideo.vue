@@ -17,7 +17,7 @@
     background-color: rgba(0, 0, 0, 0.41);
     height: 2rem;
     width: 100%;
-    z-index: 2147483647;
+    z-index:99;
 }
 .__cov-contrl-play-btn {
     position: relative;

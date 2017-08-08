@@ -15,7 +15,7 @@
     <mt-navbar class="page-part" v-model="selected">
       <mt-tab-item id="1">详情</mt-tab-item>  
       <mt-tab-item id="2">章节</mt-tab-item>
-      <mt-tab-item id="3"><span @click="initComment" class="comment">评价</span></mt-tab-item>
+      <mt-tab-item id="3"><span @click="initComment" class="commentClick">评价</span></mt-tab-item>
     </mt-navbar>
     <div class="blankClass"></div>
     <mt-tab-container v-model="selected">
@@ -136,8 +136,8 @@
         courseId:that.courseId
       }
     }).then(function(response){
+     console.log(response);
          if (response.data.success === "success"){
-           console.log(response.data.detailMsg.data);
           that.commentList=response.data.detailMsg.data;
           Indicator.close();
          }else{
@@ -166,10 +166,10 @@
           }
         }).then(function(response){
             console.log(response);
-            if (response.data.success === "success"){
+            if (response.data.detailMsg.flag){
                 that.content='';
-                var newComment=response.data.detailMsg.data;
-                that.commentList.push(...newComment);
+                var newComment=response.data.detailMsg.date;
+                that.commentList.push(newComment);
                 that.popupVisible1=false;
             }else{
                Toast("评论保存失败");
@@ -265,7 +265,7 @@
     width:1rem;
     height:1rem;
   } */
-  .page-part .comment{
+  .page-part .commentClick{
     text-align: center;
       width:100%;
       height: 100%;
@@ -342,5 +342,4 @@
   .text-content{
     margin-bottom: 0.5rem;
   }
-
 </style>
