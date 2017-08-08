@@ -57,13 +57,14 @@
         <mt-popup v-model="popupVisible1" popup-transition="popup-fade" class="mint-popup-1" :style="{ top: buttonBottom + 12 + 'rem' }">
           <div class="comment-content-up">
             <div class="comment-content">
-              <div class="close">x</div>
+              <div class="close"  @click="close">x</div>
               <div class="text-content">请输入您对该课件的评价</div>
-              <textarea class="comment-area"></textarea>
-              <div style="text-align: center"><mt-button class="button" size="small">提  交</mt-button></div>
+              <textarea class="comment-area" v-model="content"></textarea>
+              <div style="text-align: center"  @click="commit"><mt-button class="button" size="small">提  交</mt-button></div>
             </div>
           </div>
         </mt-popup>
+
         <div class="comment-content-down">
           <ul>
             <li v-for="commentInfo in commentList" class="comment-li">
@@ -71,9 +72,9 @@
                 <img class="comment-user-img" :src="commentatorImgUrl" alt="" @error='changeImage($event)'>
                 <div class="comment-pull-right">
                   <p class="username">{{commentInfo.userName}}</p>
-                  <p class="comment">{{commentInfo.commentContent}}</p>
+                  <p class="comment">{{commentInfo.content}}</p>
                   <p class="other">
-                    <span class="day">{{commentInfo.day}}</span>
+                    <span class="day">{{commentInfo.createTime}}</span>
                     <span class="like">{{commentInfo.like}} 赞</span>
                   </p>
                 </div>
@@ -87,7 +88,7 @@
   </div>
 </template>
 <script>
-  import { Button, Cell, Navbar, TabItem, TabContainer, TabContainerItem, Popup } from 'mint-ui';
+  import { Button, Cell, Navbar, TabItem, TabContainer,Toast, TabContainerItem, Popup } from 'mint-ui';
   import Vue from 'vue';
   Vue.component(Button.name, Button);
   Vue.component(Cell.name, Cell);
@@ -102,7 +103,8 @@
       return{
         selected:'1',
         popupVisible1: false,
-        buttonBottom: 0
+        buttonBottom: 0,
+        content:'',
       }
     },
     props:['video','commentatorImgUrl','lecturerName','likeNum','detailTitle','introduce','commentNum','commentList','sectionList','likeImgSrc'],
@@ -116,7 +118,36 @@
       //点赞
       clickLike:function(){
         this.$emit('clickLikes');
-      }
+      },
+      close:function(){
+        this.popupVisible1=false;
+      },
+      commit:function(){
+         var that = this;
+        if(that.content==''){
+          Toast("评论不能为空");
+          return;
+        }
+         // 保存评论
+        that.axios.get(API + '/comment/save', {
+          params: {
+            code:code,
+            content:that.content
+          }
+        }).then(function(response){
+            console.log(response);
+            if (response.data.success === "success"){
+                that.content='';
+                that.popupVisible1=false;
+                
+            }else{
+               Toast("评论保存失败");
+            }
+        }).catch(function (error) {
+            Toast("评论保存失败");
+            console.log(error);
+          });
+          }
     },
 //    mounted() {
 //      this.buttonBottom = this.$refs.button.$el.getBoundingClientRect().bottom;
