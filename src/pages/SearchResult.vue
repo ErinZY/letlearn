@@ -73,10 +73,10 @@ export default {
     that.monthValue = that.$route.query.month;
     that.field = that.$route.query.field;
     that.sortOrder = 'DESC';
-    // Indicator.open({
-    //   text: '加载中...',
-    //   spinnerType: 'snake'
-    // });
+    Indicator.open({
+      text: '加载中...',
+      spinnerType: 'snake'
+    });
     that.axios.get(API + '/Course/SearchCourse', {
       params: {
         code:code,
@@ -89,10 +89,26 @@ export default {
       }
     })
       .then(function (response) {
-        console.log(response);
-        that.allCourse = response.data.detailMsg.data.content;
-        Indicator.close();
-        console.log(that.allCourse);
+        // console.log(response);
+        // that.allCourse = response.data.detailMsg.data.content;
+        // Indicator.close();
+        // console.log(that.allCourse);
+
+        if (response.data.success === "success") {
+          var data = response.data.detailMsg.data.content;
+          if (data.length > 0) {
+            that.isnull = false;
+            that.allCourse = data;
+            Indicator.close();
+          } else {
+            that.allCourse = "";
+            that.isnull = true;
+            Indicator.close();
+          }
+        } else {
+          Toast("查询失败");
+          Indicator.close();
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -110,7 +126,7 @@ export default {
     toSearch: function () {
       this.$router.push('/Search');
     },
-    //上拉刷新
+     //上拉刷新
     loadBottom(id) {
       Indicator.open({
         text: '加载中...',
@@ -124,33 +140,33 @@ export default {
             code:code,
             pageIndex: that.pageIndex,
             pageSize: 5,
-            coursename: that.courseName,
-            month: that.monthValuee,
-            field: that.field,
-            sortOrder: that.sortOrder
+            coursename: that.courseName
           }
         })
           .then(function (response) {
-            var allCourse = response.data.detailMsg.data.content;
-            console.log(response.data.detailMsg.data.content);
-            if (allCourse.length > 0) {
-              that.allCourse.push(...allCourse)
-              Indicator.close();
-
+            if (response.data.success === "success") {
+              var allCourse = response.data.detailMsg.data.content;
+              if (allCourse.length > 0) {
+                that.allCourse.push(...allCourse);
+                Indicator.close();
+              } else {
+                Indicator.close();
+                let instance = Toast('无更多课程');
+                setTimeout(() => {
+                  instance.close();
+                }, 1000)
+                that.allLoaded = true;
+              }
             } else {
-              Indicator.close();
-              let instance = Toast('无更多课程')
-              setTimeout(() => {
-                instance.close();
-              }, 1000)
-              that.allLoaded = true
+              Toast("查询失败");
             }
+
           })
           .catch(function (error) {
             console.log(error);
           });
       }, 1000)
-      that.$refs.loadmore1.onBottomLoaded(id)
+      that.$refs.loadmore1.onBottomLoaded(id);
     },
     handleBottomChange(status) {
       this.bottomStatus = status

@@ -67,8 +67,8 @@
 
         <div class="comment-content-down">
           <ul>
-            <li v-for="commentInfo in commentList" class="comment-li">
-              <div>
+            <li v-for="commentInfo in commentList" class="">
+              <div class="comment-li">
                 <img class="comment-user-img" :src="commentInfo.userPic" alt="" @error='changeImage($event)'>
                 <div class="comment-pull-right">
                   <p class="username">{{commentInfo.userName}}</p>
@@ -186,19 +186,19 @@
   }
 </script>
 <style scoped>
-  .detail-content, .comment-content, .comment, .username, .other,.section{
+  .detail-content, .comment-content, .other,.section{
     text-align: left;
   }
   .detail-intro-content, .other, .text-content{
     color: #9d9d9d;
   }
-  .comment-li, .comment-content-up{
+.comment-content-up{
     padding: 0.5rem;
   }
-  .detail-intro-title, .comment-li, .section{
+  .detail-intro-title, .section{
     border-bottom: 0.05rem #dddddd solid;
   }
-  .detail-intro-title, .detail-intro-content, .username, .other, .section, .detail-title, .likeNum, .comment, .text-content, .edit-comment{
+  .detail-intro-title, .detail-intro-content, .other, .section, .detail-title, .likeNum, .text-content, .edit-comment{
     font-size: 0.6rem;
   }
   .detail-intro{
@@ -286,7 +286,13 @@
     margin-right: 1rem;
     width:2rem;
     height:2rem;
-    float: left;
+    border-radius: 100%;
+    position:absolute;
+    top:0;
+    left:0;
+    /* margin-top:0.25rem; */
+     padding: 0.25rem 0.5rem;  
+    /* float: left; */
   }
   textarea{
     border: 0.05rem solid #dddddd;
@@ -298,15 +304,19 @@
     width: 6rem;
   }
   .comment-li{
+    position:relative;
     list-style: none;
-    height: 2.5rem;
+    min-height: 2.5rem;
+    border-bottom: 0.05rem solid #dddddd;
   }
   .comment-pull-right{
-    float: left;
+    padding-top:0.25rem;
+      margin-left: 3rem;   
   }
-  /*.commentNum{*/
-    /*padding: 0 0.5rem;*/
-  /*}*/
+ .comment-pull-right p{
+   font-size: 0.6rem;
+   text-align: left;
+ }
   .day{
     border-right: 0.05rem solid #dddddd;
     padding-right: 0.5rem;

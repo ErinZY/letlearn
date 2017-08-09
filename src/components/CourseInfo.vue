@@ -103,7 +103,7 @@ export default {
 .course-info .lecturerInfo,
 .course-info .promulgateTime,
 .course-info .videoInfo {
-    min-height: 0.75rem;
+    min-height: 0.5rem;
     font-size: 0.6rem;
     color: #b5b5b5;
     text-align: left;

@@ -205,7 +205,8 @@ export default {
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
     font-size: 0.5rem;
-    width: 3.5rem;
+    /* width: 3.5rem; */
+    padding:0.25rem;
     min-height: 1.5rem;
 }
 
