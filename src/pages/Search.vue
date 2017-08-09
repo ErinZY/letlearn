@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="uploadTimeClass">
-      <p class="classTitle">视频发布时间</p>
+      <p class="classTitle">发布时间</p>
       <ul>
         <li id="0" @click="chooseMonth($event)"><div class="month">以前</div></li>
         <li v-for="(item,index) in months" :key="index" :id="item+1" @click="chooseMonth($event)"><div class="month">{{item+1}} 月</div></li>

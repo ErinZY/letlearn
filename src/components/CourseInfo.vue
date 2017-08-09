@@ -10,9 +10,6 @@
                 <span class="lecturerName">讲师:
                     <span>{{lecturerName}}</span>
                 </span>
-                <span class="promulgator">发布者:
-                    <span>{{promulgator}}</span>
-                </span>
             </p>
             <p class="promulgateTime">
                 <span>{{promulgateTime}}</span>
