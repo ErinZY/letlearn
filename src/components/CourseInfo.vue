@@ -53,7 +53,7 @@ export default {
     text-align: left;
        /* background-color:aqua;    */
     /* margin-top: 0.5rem; */
-    height: 5.5rem;
+    min-height: 5.5rem;
     border-bottom: 1px solid #e5e5e5;
     overflow: hidden;
 }

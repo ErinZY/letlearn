@@ -339,13 +339,15 @@ export default {
 }
 
 .mySearch .mintui-search {
-   /* display: inline-block; 
-  margin-top:0.1rem; */
+position: absolute;
   margin-left: 0.5rem;
   color: #ffffff;
 }
 
 .mySearch input {
+margin-left:1.5rem;
+padding:0.25rem 0;
+height:1rem;
   width: 80%;
   text-indent: 0;
   border: 0;
