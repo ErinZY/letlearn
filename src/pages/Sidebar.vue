@@ -24,6 +24,24 @@
                                 </li>
                             </ul>
                         </li>
+
+                        <li>
+                            <div class="filtrate-name">
+                                <img src="../../static/images/icon_1.svg" alt="">
+                                <span class="bigtitle">发布时间</span>
+                                <!-- <span>(</span>
+                                <span>{{item.courseNum}}</span>
+                                <span>)</span> -->
+                            </div>
+                            <ul class="sub">
+                                <li id="week" @click="chooseTime($event,this)">
+                                    <button :class="{selected:isSelected}" class="sub-item">本周</button>
+                                </li>
+                                <li id="month" @click="chooseTime($event,this)">
+                                    <button :class="{selected:isSelected}" class="sub-item">本月</button>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <div class="checkbtn">
@@ -43,6 +61,7 @@ export default {
             wrapperHeight: 0,
             isSelected: false,
             selectedCourseId: '',
+            selecteTimeId:'',
             currentCourse:''
         }
     },
@@ -68,11 +87,23 @@ export default {
             document.getElementById(id).setAttribute("class", "myselected");
 
         },
+        chooseTime:function(){
+           var lis = document.getElementsByClassName("myselected1");
+            if (lis.length > 0) {
+                for (var i = 0; i < lis.length; i++) {
+                    lis[i].removeAttribute("class", "myselected1");
+                }
+            }
+            var id = event.target.parentElement.id;
+            this.selecteTimeId = id;
+            this.currentCourse=event.target.innerText;
+            document.getElementById(id).setAttribute("class", "myselected1"); 
+        },
         allCourse: function () {
             this.$emit('lookAllCourse');
         },
         searchCourse: function () {
-            this.$emit('searchCourse', this.selectedCourseId,this.currentCourse);
+            this.$emit('searchCourse', this.selectedCourseId,this.selecteTimeId,this.currentCourse);
         }
     },
     components: {
@@ -85,7 +116,10 @@ export default {
     color: #fff !important;
     background-color: #06CF86 !important;
 }
-
+.myselected1 button {
+    color: #fff !important;
+    background-color: #06CF86 !important;
+}
 #Siderbar {
     position:fixed;
     z-index:999;
