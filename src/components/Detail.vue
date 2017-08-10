@@ -14,7 +14,7 @@
     <!-- 详情，章节，评价导航切换 -->
     <mt-navbar class="page-part" v-model="selected">
       <mt-tab-item id="1">详情</mt-tab-item>  
-      <mt-tab-item id="2">章节</mt-tab-item>
+      <mt-tab-item id="2"><span @click="chapterClick" class="chapterClick">章节</span></mt-tab-item>
       <mt-tab-item id="3"><span @click="initComment" class="commentClick">评价</span></mt-tab-item>
     </mt-navbar>
     <div class="blankClass"></div>
@@ -32,7 +32,8 @@
         </div>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
-        <ul>
+        <img :src="chapterUrl" alt="" class="chapterImg" :style="{height:wrapperHeight + 'px',width:wrapperWidth+'px'}">
+        <!-- <ul>
           <li v-for="sectionInfo in sectionList" class="section-li">
             <div class="sectionPlayer">
               <img src="../../static/images/player.svg" alt="">
@@ -42,7 +43,7 @@
               </p>
             </div>
           </li>
-        </ul>
+        </ul> -->
       </mt-tab-container-item>
 
       <mt-tab-container-item id="3">
@@ -105,10 +106,17 @@
         popupVisible1: false,
         buttonBottom: 0,
         content:'',
-        commentList:''
+        commentList:'',
+        sectionList:'',
+        chapterUrl:'',
+        wrapperHeight:''
       }
     },
-    props:['courseId','video','lecturerName','likeNum','detailTitle','introduce','commentNum','sectionList','likeImgSrc'],
+    props:['courseId','video','lecturerName','likeNum','detailTitle','introduce','commentNum','likeImgSrc'],
+    mounted(){
+      this.wrapperHeight = document.documentElement.clientHeight-280;
+      this.wrapperWidth = document.documentElement.clientWidth-20;
+    },
     methods:{
       //设置图片加载不出来,或者图片本身不存在时 对应的图片
       changeImage(event){
@@ -122,6 +130,31 @@
       },
       close:function(){
         this.popupVisible1=false;
+      },
+      chapterClick:function(){
+         Indicator.open({
+        text: '加载中...',
+        spinnerType: 'snake'
+      });
+        var that=this; 
+    that.axios.get(API + '/Course/SearchCourseById', {
+       params: {
+        code:code,
+        courseId:that.courseId
+      }
+    }).then(function(response){
+     console.log(response);
+         if (response.data.success === "success"){
+          that.chapterUrl=BashImgUrl+response.data.detailMsg.data.result[0].chapterUrl;
+          Indicator.close();
+         }else{
+           Indicator.close();
+           Toast("查询失败");
+         }
+    }).catch(function (error) {
+        console.log(error);
+        Indicator.close();
+      });
       },
        // 查询课程对应的评论
       initComment:function(){
@@ -351,5 +384,7 @@
   }
   .text-content{
     margin-bottom: 0.5rem;
+  }
+  .chapterImg{
   }
 </style>

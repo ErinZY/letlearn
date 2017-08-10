@@ -24,7 +24,7 @@
           <div class="filter">
             <div class="filterBtn" @click="myfiltrate">
               <img src="../../static/images/filter.svg" alt="">
-              <span>筛选</span>
+              <span>分类</span>
             </div>
           </div>
   
