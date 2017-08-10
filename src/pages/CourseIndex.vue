@@ -83,7 +83,10 @@ export default {
       // 所有课程
       allCourse: [],
       // 侧边栏筛选信息
-      sidebarList: []
+      sidebarList: [],
+      courseTypeIds: '',
+       selecteTimeId:''
+
     }
   },
   //初始化页面
@@ -260,12 +263,13 @@ export default {
             pageSize: 5,
             coursename: that.courseName,
             courseTypeIds: that.courseTypeIds,
-            selecteTimeId:selecteTimeId.selecteTimeId
+            selecteTimeId:that.selecteTimeId
 
           }
         })
           .then(function (response) {
             if (response.data.success === "success") {
+              console.log(response.data.detailMsg.data.content);
               var allCourse = response.data.detailMsg.data.content;
               if (allCourse.length > 0) {
                 that.allCourse.push(...allCourse);
