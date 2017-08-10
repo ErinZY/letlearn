@@ -204,6 +204,8 @@ export default {
     // 通过点击侧边栏的某个课程分类筛选
     searchCourse: function (...data) {
       this.currentCourse = data[2];
+      this.courseTypeIds=data[0];
+      this.selecteTimeId=data[1];
       var that = this;
       Indicator.open({
         text: '加载中...',
@@ -256,7 +258,10 @@ export default {
             code:code,
             pageIndex: that.pageIndex,
             pageSize: 5,
-            coursename: that.courseName
+            coursename: that.courseName,
+            courseTypeIds: that.courseTypeIds,
+            selecteTimeId:selecteTimeId.selecteTimeId
+
           }
         })
           .then(function (response) {
