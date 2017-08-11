@@ -81,7 +81,8 @@
     cursor: pointer;
 }
 .__cov-contrl-vol-box {
-    display: flex;
+    /* display: flex; */
+    display:none;
 }
 .__cov-contrl-video-slider {
     position: relative;
@@ -105,7 +106,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 0%;
     height: .1rem;
     background: rgb(255, 255, 255);
     transition: transform .2s;
@@ -199,10 +200,16 @@ video::-webkit-media-controls-enclosure {
                             </g>
                         </svg>
                     </button>
-                    <div class="__cov-contrl-video-slider" @click="slideClick" @mousedown="videoMove">
-                        <div class="__cov-contrl-video-inner" :style="{ 'transform': `translate3d(${video.pos.current}px, 0, 0)`}"></div>
+                    <div class="__cov-contrl-video-slider" @click="slideClick" @mousedown="videoMove" ref="progressBar" >
+                        <div class="__cov-contrl-video-inner"
+                             :style="{ 'transform': `translate3d(${video.pos.current}px, 0, 0)`}"
+                             @touchstart.prevent="progressTouchStart"
+                             @touchmove.prevent="progressTouchMove"
+                             @touchend="progressTouchEnd"></div>
                         <div class="__cov-contrl-video-rail">
-                            <div class="__cov-contrl-video-rail-inner" :style="{ 'transform': 'translate3d(' +video.loaded + '%, 0, 0)'}"></div>
+
+                            <div class="__cov-contrl-video-rail-inner"
+                                 ref="progress" ></div>
                         </div>
                     </div>
                     <div class="__cov-contrl-video-time">
@@ -215,7 +222,7 @@ video::-webkit-media-controls-enclosure {
                                 <title>vol</title>
                                 <desc>Created with Sketch.</desc>
                                 <defs>
-                                    <path d="M8.61522369,12 L20,0.615223689 L20,37.3847763 L8.61522369,26 L1.99201702,26 C0.891856397,26 0,25.1029399 0,23.9941413 L0,14.0058587 C0,12.8980535 0.900176167,12 1.99201702,12 L8.61522369,12 L8.61522369,12 Z" id="cov-vol"></path>
+                                <path d="M8.61522369,12 L20,0.615223689 L20,37.3847763 L8.61522369,26 L1.99201702,26 C0.891856397,26 0,25.1029399 0,23.9941413 L0,14.0058587 C0,12.8980535 0.900176167,12 1.99201702,12 L8.61522369,12 L8.61522369,12 Z" id="cov-vol"></path>
                                 </defs>
                                 <g id="Page-1" stroke="none" stroke-width="2" fill="none" fill-rule="evenodd">
                                     <g id="vol" transform="translate(2.000000, 3.000000)">
@@ -275,6 +282,7 @@ const timeParse = (sec) => {
     sec = sec - min * 60
     return pad(min) + ':' + pad(sec)
 }
+const progressBtnWidth = 12
 export default {
     props: {
         sources: Array,
@@ -344,6 +352,9 @@ export default {
         document.body.removeEventListener('mousemove', this.mouseMoveAction)
         document.body.removeEventListener('mouseup', this.mouseUpAction)
     },
+  created(){
+        this.touch = {}
+  },
     methods: {
         init () {
             this.$video = this.$el.getElementsByTagName('video')[0]
@@ -411,32 +422,39 @@ export default {
                     return;
                 }
                 this.video.loaded = (-1 + (this.$video.buffered.end(0) / this.$video.duration)) * 100
+
             })
             this.video.len = this.$video.duration
         },
         setVideoByTime (percent) {
-            this.$video.currentTime = Math.floor(percent * this.video.len)
+           // if (isNaN(this.video.len)) return
+
+            this.$video.currentTime = percent * this.$video.duration
         },
         play () {
-            this.state.playing = !this.state.playing
-            if (this.$video) {
+            setTimeout(()=>{
+              this.state.playing = !this.state.playing
+              if (this.$video) {
                 if (this.state.playing) {
-                    this.$emit("countPlayNum");
-                    this.$video.play()
-                    this.mouseLeaveVideo()
-                    this.$video.addEventListener('timeupdate', this.timeline)
-                    this.$video.addEventListener('ended', (e) => {
-                        this.state.playing = false
-                        this.video.pos.current = 0
-                        this.$video.currentTime = 0
-                    })
+                  this.$emit("countPlayNum");
+                  this.$video.play()
+                  this.mouseLeaveVideo()
+                  this.$video.addEventListener('timeupdate', this.timeline)
+                  this.$video.addEventListener('ended', (e) => {
+                    this.state.playing = false
+                    this.video.pos.current = 0
+                    this.$video.currentTime = 0
+                  })
                 } else {
-                    this.$video.pause()
+                  this.$video.pause()
                 }
-            }
+              }
+            },200)
         },
         timeline () {
             const percent = this.$video.currentTime / this.$video.duration
+        //    console.log(this.video.pos.current)
+          this.$refs.progress.style.width = `${this.video.pos.current}px`
             this.video.pos.current = (this.video.pos.width * percent).toFixed(3)
             this.video.displayTime = timeParse(this.$video.duration - this.$video.currentTime)
         },
@@ -465,6 +483,36 @@ export default {
                 this.$video.volume = val
             }
         },
+      progressTouchStart(e){
+             this.touch.initiated = true
+             this.touch.startX = e.touches[0].pageX
+             this.touch.left = this.$refs.progress.offsetWidth
+      },
+      progressTouchMove(e){
+        if (!this.touch.initiated){
+          return
+        }
+        const deltaX = e.touches[0].pageX - this.touch.startX
+        const offsetWidth =Math.min(this.$refs.progressBar.clientWidth - progressBtnWidth,Math.max(0,this.touch.left + deltaX))
+
+        this._setoffWidth(offsetWidth)
+        this._triggerPercent()
+      },
+
+      _setoffWidth(offsetWidth){
+          this.$refs.progress.style.width = `${offsetWidth}px`
+          this.video.pos.current = offsetWidth
+      },
+      _triggerPercent(){
+        const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
+        const percent = this.$refs.progress.clientWidth / barWidth
+        this.setVideoByTime(percent)
+
+      },
+      progressTouchEnd(e){
+        this.touch.initiated = false
+
+      },
         fullScreen () {
             if (!this.state.fullScreen) {
                 this.state.fullScreen = true
@@ -508,6 +556,7 @@ export default {
         },
         videoSlideMove (e) {
             const x = getMousePosition(e) - this.video.pos.start
+            this.$refs.progress.style.width = `${x}px`
             if (x > 0 && x < this.video.pos.width) {
                 this.video.pos.current = x
                 this.setVideoByTime(x / this.video.pos.width)

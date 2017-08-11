@@ -109,7 +109,8 @@
         commentList:'',
         sectionList:'',
         chapterUrl:'',
-        wrapperHeight:''
+        wrapperHeight:'',
+        wrapperWidth:''
       }
     },
     props:['courseId','video','lecturerName','likeNum','detailTitle','introduce','commentNum','likeImgSrc'],

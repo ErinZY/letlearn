@@ -14,7 +14,7 @@
         </div>
         <div class="user-header">
           <div class="avatar">
-            <img src="../../static/images//girl.svg" alt="">
+            <img :src="avatarUrl" alt="">
           </div>
           <div class="header-title">
             <p>课程列表</p>
@@ -64,6 +64,7 @@ export default {
   name: 'CourseIndex',
   data() {
     return {
+      avatarUrl:'../static/images/girl.svg',
       isnull: false,
       //头部是否含有右边的东西
       hasRight: true,
@@ -107,6 +108,9 @@ export default {
     })
       .then(function (response) {
         if (response.data.success === "success") {
+          if(response.data.detailMsg.avatar!=null && response.data.detailMsg.avatar!=""){
+            that.avatarUrl=response.data.detailMsg.avatar;
+          }
           var data = response.data.detailMsg.data.content;
           if (data.length > 0) {
             that.isnull = false;
