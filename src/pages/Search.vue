@@ -15,8 +15,10 @@
     <div class="uploadTimeClass">
       <p class="classTitle">发布时间</p>
       <ul>
-        <li id="0" @click="chooseMonth($event)"><div class="month">以前</div></li>
-        <li v-for="(item,index) in months" :key="index" :id="item+1" @click="chooseMonth($event)"><div class="month">{{item+1}} 月</div></li>
+        <li id="before" @click="chooseTime($event)"><div class="month">以前</div></li>
+        <!-- <li v-for="(item,index) in months" :key="index" :id="item+1" @click="chooseTime($event)"><div class="month">{{item+1}} 月</div></li> -->
+        <li id="week" @click="chooseTime($event)"><div class="month">本周</div></li>
+        <li id="month" @click="chooseTime($event)"><div class="month">本月</div></li>
       </ul>
       <p class="classTitle">排序规则</p>
       <ul>
@@ -36,7 +38,7 @@ export default {
     return {
       coursename: "", 
       months:[],
-      chooseMonthValue:'',
+      chooseTimeValue:'',
       chooseOrderNameValue:''
     }
   },
@@ -52,13 +54,13 @@ export default {
       this.$router.push("/CourseIndex");
     },
     mysearch: function () {
-      this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename,month:this.chooseMonthValue,field:this.chooseOrderNameValue } });
+      this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename,time:this.chooseTimeValue,field:this.chooseOrderNameValue } });
     },
     // 回到课程首页
     backhome: function () {
       this.$router.push('/CourseIndex');
     },
-    chooseMonth:function(event){
+    chooseTime:function(event){
       var lis = document.getElementsByClassName("myselected");
             if (lis.length > 0) {
                 for (var i = 0; i < lis.length; i++) {
@@ -66,9 +68,9 @@ export default {
                 }
             }
       var id=event.target.parentElement.id;
-      this.chooseMonthValue=id;
+      this.chooseTimeValue=id;
       document.getElementById(id).setAttribute("class", "myselected");
-      // this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename,month:this.chooseMonthValue } });
+      // this.$router.push({ path: '/SearchResult', query: { coursename: this.coursename,month:this.chooseTimeValue } });
     },
     chooseOrderName:function(event){
         var lis = document.getElementsByClassName("myselected1");

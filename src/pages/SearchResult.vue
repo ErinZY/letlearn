@@ -56,8 +56,8 @@ export default {
       pageIndex: 1,
       // 课程名（通过搜索课程名查询）
       courseName: '',
-      //所选月份
-      monthValue: '',
+      //所选时间
+      timeValue: '',
       //所选排序字段名
       field: '',
       //所选排序规则
@@ -70,7 +70,7 @@ export default {
   mounted() {
     var that = this;
     that.courseName = that.$route.query.coursename;
-    that.monthValue = that.$route.query.month;
+    that.timeValue = that.$route.query.time;
     that.field = that.$route.query.field;
     that.sortOrder = 'DESC';
     Indicator.open({
@@ -83,7 +83,7 @@ export default {
         pageIndex: that.pageIndex,
         pageSize: 5,
         coursename: that.courseName,
-        month: that.monthValue,
+        selecteTimeId: that.timeValue,
         field: that.field,
         sortOrder: that.sortOrder
       }
@@ -137,10 +137,13 @@ export default {
       setTimeout(() => {
         that.axios.get(API + '/Course/SearchCourse', {
           params: {
-            code:code,
-            pageIndex: that.pageIndex,
-            pageSize: 5,
-            coursename: that.courseName
+             code:code,
+             pageIndex: that.pageIndex,
+             pageSize: 5,
+             coursename: that.courseName,
+             selecteTimeId: that.timeValue,
+             field: that.field,
+             sortOrder: that.sortOrder
           }
         })
           .then(function (response) {

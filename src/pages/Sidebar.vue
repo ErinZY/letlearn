@@ -1,12 +1,20 @@
 <template>
     <div id="Siderbar" ref="wrapper">
-        <div class="blank" :style="{height:wrapperHeight + 'px'}" @click="closeSidebar">空白处</div>
+        <div class="blank" :style="{height:wrapperHeight + 'px'}" @click="closeSidebar"></div>
         <div class="sidebar-content" :style="{height:wrapperHeight + 'px'}">
             <div class="sidebar-list">
                 <div class="filtrate">
                     <img src="../../static/images/filter1.svg" alt="">
-                    <span>筛选</span>
-                    <button @click="allCourse">全部课程</button>
+                    <span>分类</span>
+                    <div class="timeChoose">
+                       <div id="week" @click="chooseTime($event,this)">
+                           <button :class="{selected:isSelected}" class="sub-item">本周</button>
+                        </div>
+                       <div id="month" @click="chooseTime($event,this)">
+                            <button :class="{selected:isSelected}" class="sub-item">本月</button>
+                        </div>
+                    </div>
+                    <button class="all-course" @click="allCourse">全部课程</button>
                 </div>
                 <div class="scroll" :style="{height:(wrapperHeight-100) + 'px'}">
                     <ul>
@@ -33,14 +41,6 @@
                                 <span>{{item.courseNum}}</span>
                                 <span>)</span> -->
                             </div>
-                            <ul class="sub">
-                                <li id="week" @click="chooseTime($event,this)">
-                                    <button :class="{selected:isSelected}" class="sub-item">本周</button>
-                                </li>
-                                <li id="month" @click="chooseTime($event,this)">
-                                    <button :class="{selected:isSelected}" class="sub-item">本月</button>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -111,13 +111,28 @@ export default {
 }
 </script>
 <style scoped>
+.timeChoose{
+    margin-left:0.25rem;
+}
+.timeChoose,.timeChoose div{
+    display: inline-block;
+}
+.timeChoose div button{
+    text-align: center;
+    color: #fff;
+    border:0.05rem solid #fff;
+    background-color: #06CF86;
+    width:2rem;
+    height: 1.25rem;
+    border-radius: 0.75rem;
+}
 .myselected button {
     color: #fff !important;
     background-color: #06CF86 !important;
 }
 .myselected1 button {
-    color: #fff !important;
-    background-color: #06CF86 !important;
+    color: #06CF86 !important;
+    background-color: #fff !important;
 }
 #Siderbar {
     position:fixed;
@@ -163,7 +178,7 @@ export default {
     margin-left: 1.75rem;
 }
 
-.filtrate button {
+.filtrate .all-course {
     text-align: center;
     color: #06CF86;
     border: 0;

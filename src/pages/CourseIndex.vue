@@ -33,7 +33,7 @@
       </div>
       <div class="course-list">
         <ul>
-          <loadmore :autoFill='false' :bottom-method='loadBottom' @bottom-status-change='handleBottomChange' :bottom-all-loaded='allLoaded' ref='loadmore1'>
+          <loadmore :autoFill='false' :bottom-method='loadBottom' @bottom-status-change='handleBottomChange' :bottom-all-loaded='allLoaded' ref='loadmore1' :class="{fixheight:isShowFilter}">
             <li v-for="(courseinfo,index) in allCourse" :key="index">
               <cou-info :coursePK='courseinfo.pkCourse' :src='geturl(courseinfo.courseIconUrl)' :courseName="courseinfo.courseName" :lecturerName="courseinfo.courseLecturer" :promulgator="courseinfo.coursePublisher" :promulgateTime="courseinfo.coursePublishTime" :playNum="courseinfo.courseBroadcastNumber" :likesNum="courseinfo.courseLikeNumber" :commentNum="courseinfo.courseLikeNumber">
               </cou-info>
@@ -64,6 +64,8 @@ export default {
   name: 'CourseIndex',
   data() {
     return {
+      // 侧边栏是否出现
+      isShowFilter:'',
       avatarUrl:'../static/images/girl.svg',
       isnull: false,
       //头部是否含有右边的东西
@@ -152,6 +154,7 @@ export default {
         .then(function (response) {
           if (response.data.success === "success"){
             that.isClickFilter = true;
+            that.isShowFilter=true;
             that.sidebarList = response.data.detailMsg.data.sublist;
           }else{
             Toast("查询失败");
@@ -165,6 +168,7 @@ export default {
     //关闭搜索侧边栏
     closeMySidebar: function () {
       this.isClickFilter = false;
+      this.isShowFilter=false;
     },
     // 搜索框获得焦点时，跳转新的页面搜索
     toSearch: function () {
@@ -193,11 +197,13 @@ export default {
               that.allCourse = data;
               Indicator.close();
               that.isClickFilter = false;
+              that.isShowFilter=true;
             } else {
               that.isnull = true;
               that.allCourse = "";
               Indicator.close();
               that.isClickFilter = false;
+              that.isShowFilter=true;
             }
           } else {
             Toast("查询失败");
@@ -235,11 +241,13 @@ export default {
               that.allCourse = data;
               Indicator.close();
               that.isClickFilter = false;
+              that.isShowFilter=true;
             } else {
               that.isnull = true;
               that.allCourse = "";
               Indicator.close();
               that.isClickFilter = false;
+              that.isShowFilter=true;
             }
           } else {
             Indicator.close();
@@ -482,5 +490,8 @@ li {
   display: inline-block;
   margin-top: 2rem;
   text-align: center;
+}
+.fixheight{
+  height: 480px;
 }
 </style>
