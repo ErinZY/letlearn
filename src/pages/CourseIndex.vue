@@ -175,7 +175,7 @@ export default {
       this.$router.push('/Search');
     },
     //查看全部课程
-    showAllCourse: function () {
+    showAllCourse: function (...data) {
       this.currentCourse = "全部课程";
       var that = this;
       Indicator.open({
@@ -187,6 +187,7 @@ export default {
           code:code,
           pageIndex: that.pageIndex,
           pageSize: 5,
+          selecteTimeId:data[0]
         }
       })
         .then(function (response) {

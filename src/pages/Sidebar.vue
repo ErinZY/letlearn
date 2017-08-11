@@ -32,16 +32,6 @@
                                 </li>
                             </ul>
                         </li>
-
-                        <li>
-                            <div class="filtrate-name">
-                                <img src="../../static/images/icon_1.svg" alt="">
-                                <span class="bigtitle">发布时间</span>
-                                <!-- <span>(</span>
-                                <span>{{item.courseNum}}</span>
-                                <span>)</span> -->
-                            </div>
-                        </li>
                     </ul>
                 </div>
                 <div class="checkbtn">
@@ -99,7 +89,7 @@ export default {
             document.getElementById(id).setAttribute("class", "myselected1"); 
         },
         allCourse: function () {
-            this.$emit('lookAllCourse');
+            this.$emit('lookAllCourse',this.selecteTimeId);
         },
         searchCourse: function () {
             this.$emit('searchCourse', this.selectedCourseId,this.selecteTimeId,this.currentCourse);
@@ -125,6 +115,7 @@ export default {
     width:2rem;
     height: 1.25rem;
     border-radius: 0.75rem;
+    outline: none;
 }
 .myselected button {
     color: #fff !important;
@@ -179,6 +170,7 @@ export default {
 }
 
 .filtrate .all-course {
+    outline: none;
     text-align: center;
     color: #06CF86;
     border: 0;
