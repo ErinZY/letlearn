@@ -38,5 +38,9 @@ export default new Router({
             name: 'Detail',
             component: require('../pages/CourseDetail.vue')
         },
+        {
+          path:'/Test',
+          component:require('../pages/test.vue')
+        }
     ]
 })
