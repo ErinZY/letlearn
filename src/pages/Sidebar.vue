@@ -86,7 +86,7 @@ export default {
             }
             var id = event.target.parentElement.id;
             this.selecteTimeId = id;
-            document.getElementById(id).setAttribute("class", "myselected1"); 
+            document.getElementById(id).setAttribute("class", "myselected1");
         },
         allCourse: function () {
             this.$emit('lookAllCourse',this.selecteTimeId);
@@ -109,7 +109,7 @@ export default {
 }
 .timeChoose div button{
     text-align: center;
-    color: #fff;
+    color: #fff8dc;
     border:0.05rem solid #fff;
     background-color: #06CF86;
     width:2rem;
